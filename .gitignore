@@ -1,0 +1,13 @@
+node_modules/
+dist/
+output/
+.playwright-cli/
+coverage/
+*.log
+*.tsbuildinfo
+.DS_Store
+Thumbs.db
+.vscode/
+setTimeout(resolve
+/logo_infotec.png
+/Módulo 2. Economía Digital y Mercados Emergentes.pdf
