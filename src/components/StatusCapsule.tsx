@@ -5,52 +5,52 @@ interface StatusCapsuleProps {
   isLocked?: boolean;
 }
 
-function getStatus(scorePercent: number, isLocked: boolean) {
+function getStatus(metrics: EvaluationMetrics, isLocked: boolean) {
   if (isLocked) {
     return {
-      emoji: '🔒',
-      tone: 'danger',
-      label: 'Bloqueada'
+      tone: 'blocked',
+      label: 'Sesión bloqueada',
+      note: 'Se requiere revisión de integridad.'
     };
   }
 
-  if (scorePercent <= 50) {
+  if (metrics.resolvedCount === 0) {
     return {
-      emoji: '❌',
-      tone: 'danger',
-      label: 'Atención'
+      tone: 'ready',
+      label: 'Lista para iniciar',
+      note: 'La evaluación está lista para comenzar.'
     };
   }
 
-  if (scorePercent <= 79) {
+  if (metrics.scorePercent <= 79) {
     return {
-      emoji: '🟡',
-      tone: 'warning',
-      label: 'En progreso'
+      tone: 'progress',
+      label: 'Avance en curso',
+      note: 'Continúa con la ruta de actividades.'
     };
   }
 
   return {
-    emoji: '✅',
     tone: 'success',
-    label: 'Buen avance'
+    label: 'Buen avance',
+    note: 'Mantén el ritmo para cerrar la evidencia.'
   };
 }
 
 export function StatusCapsule({ metrics, isLocked = false }: StatusCapsuleProps) {
-  const status = getStatus(metrics.scorePercent, isLocked);
+  const status = getStatus(metrics, isLocked);
 
   return (
     <aside className={`status-capsule status-${status.tone}`} aria-live="polite">
       <div className="status-header">
-        <span className="status-emoji" aria-hidden="true">
-          {status.emoji}
-        </span>
-        <div>
-          <p className="status-label">Estado actual</p>
+        <div className="status-heading">
+          <p className="status-label">Estado de la evaluación</p>
           <strong>{status.label}</strong>
         </div>
+        <span className="status-indicator" aria-hidden="true" />
       </div>
+
+      <p className="status-note">{status.note}</p>
 
       <dl className="status-metrics">
         <div>

@@ -24,7 +24,7 @@ export function SectionCard({ step, title, instructions, state, children }: Sect
   return (
     <section className={`section-card section-${state}`} aria-labelledby={`${step}-title`}>
       <header className="section-header">
-        <div>
+        <div className="section-heading">
           <p className="section-step">{step}</p>
           <h2 id={`${step}-title`}>{title}</h2>
         </div>
@@ -32,7 +32,7 @@ export function SectionCard({ step, title, instructions, state, children }: Sect
       </header>
 
       <p className="section-instructions">{instructions}</p>
-      {children}
+      <div className="section-content">{children}</div>
     </section>
   );
 }
