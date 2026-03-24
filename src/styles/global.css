@@ -1017,12 +1017,16 @@ h4 {
     padding-top: 0.75rem;
   }
 
+  .top-shell {
+    gap: 0.8rem;
+  }
+
   .hero-card,
   .section-card,
   .question-card,
   .result-card,
   .preview-card {
-    padding: 1rem;
+    padding: 0.95rem;
   }
 
   .brand-mark {
