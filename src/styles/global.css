@@ -1033,6 +1033,35 @@ h4 {
     width: 88px;
   }
 
+  .hero-body {
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+  }
+
+  .hero-guidelines,
+  .theme-band {
+    padding: 0.85rem;
+  }
+
+  .hero-rules {
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    font-size: 0.96rem;
+  }
+
+  .theme-strip {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-top: 0.6rem;
+    padding-bottom: 0.15rem;
+    scrollbar-width: thin;
+  }
+
+  .theme-pill {
+    flex: 0 0 150px;
+    padding: 0.72rem 0.78rem;
+  }
+
   .activity-strip {
     padding: 0.85rem;
   }
@@ -1044,6 +1073,26 @@ h4 {
 
   .match-column {
     padding: 0.85rem;
+  }
+
+  .status-capsule {
+    padding: 0.9rem;
+  }
+
+  .status-note {
+    display: none;
+  }
+
+  .status-metrics {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .status-metrics div {
+    display: grid;
+    gap: 0.2rem;
+    padding-bottom: 0;
+    border-bottom: none;
   }
 
   .swipe-card {
