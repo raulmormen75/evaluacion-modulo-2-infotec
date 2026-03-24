@@ -85,15 +85,22 @@ export function FinalSection({ metrics }: FinalSectionProps) {
 
   return (
     <div className="activity-body">
-      <div className="completion-banner">
-        <p className="mini-label">Evaluación concluida</p>
-        <h3>Has completado los 100 ejercicios.</h3>
-        <p>Ahora registra tu nombre y genera la evidencia en imagen.</p>
-      </div>
+      <section className="completion-banner">
+        <div>
+          <p className="mini-label">Evaluación concluida</p>
+          <h3>Has completado los 100 ejercicios.</h3>
+          <p>Registra tu nombre y prepara la evidencia institucional en imagen.</p>
+        </div>
+        <div className="progress-stack">
+          <div className="progress-chip">Calificación final: {metrics.scorePercent}%</div>
+          <div className="progress-chip">Incorrectos acumulados: {metrics.incorrectAttempts}</div>
+        </div>
+      </section>
 
       <div className="final-grid">
         <article className="result-card">
-          <h4>Resultado final</h4>
+          <p className="mini-label">Resumen final</p>
+          <h4>Resultado registrado</h4>
           <dl className="result-list">
             <div>
               <dt>Calificación final</dt>
@@ -115,6 +122,9 @@ export function FinalSection({ metrics }: FinalSectionProps) {
         </article>
 
         <article className="result-card">
+          <p className="mini-label">Evidencia</p>
+          <h4>Genera tu comprobante</h4>
+
           <label className="field-label" htmlFor="studentName">
             Nombre completo del alumno
           </label>
@@ -146,15 +156,22 @@ export function FinalSection({ metrics }: FinalSectionProps) {
           </div>
 
           <p className={`feedback-message ${errorMessage ? 'feedback-error' : ''}`} aria-live="polite">
-            {errorMessage || 'La evidencia se exporta en PNG con formato institucional claro.'}
+            {errorMessage || 'La exportación se genera en PNG con presentación institucional.'}
           </p>
         </article>
       </div>
 
       {generatedUrl ? (
-        <div className="preview-card">
+        <section className="preview-card">
+          <div className="preview-header">
+            <div>
+              <p className="mini-label">Vista previa</p>
+              <h4>Evidencia lista para descarga</h4>
+            </div>
+            <span className="preview-state">Archivo preparado</span>
+          </div>
           <img src={generatedUrl} alt="Vista previa de la evidencia generada" className="preview-image" />
-        </div>
+        </section>
       ) : null}
 
       <div className="evidence-stage" aria-hidden="true">

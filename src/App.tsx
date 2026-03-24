@@ -101,36 +101,40 @@ export function App() {
 
   return (
     <div className="app-shell">
-      <div className="app-hero-layout">
-        <div className="app-main">
-          <Header themeMode={snapshot.themeMode} onToggleTheme={handleToggleTheme} />
+      <section className="top-shell" aria-label="Orientación de la evaluación">
+        <div className="app-hero-layout">
+          <div className="app-main">
+            <Header themeMode={snapshot.themeMode} onToggleTheme={handleToggleTheme} />
+          </div>
+
+          <aside className="app-sidebar" aria-label="Estado de la evaluación">
+            <StatusCapsule metrics={metrics} isLocked={isIntegrityLocked} />
+          </aside>
         </div>
 
-        <aside className="app-sidebar" aria-label="Estado de la evaluación">
-          <StatusCapsule metrics={metrics} isLocked={isIntegrityLocked} />
-        </aside>
-      </div>
-
-      <nav className={`activity-strip ${isIntegrityLocked ? 'activity-strip-disabled' : ''}`} aria-label="Ruta de evaluación">
-        <span
-          className={
-            activeSection === 'match' ? 'strip-item current' : matchResolved === 25 ? 'strip-item done' : 'strip-item'
-          }
-        >
-          1. Relacionar conceptos
-        </span>
-        <span className={activeSection === 'mcq' ? 'strip-item current' : mcqResolved === 50 ? 'strip-item done' : 'strip-item'}>
-          2. Opción múltiple
-        </span>
-        <span
-          className={
-            activeSection === 'swipe' ? 'strip-item current' : swipeResolved === 25 ? 'strip-item done' : 'strip-item'
-          }
-        >
-          3. Verdadero o falso
-        </span>
-        <span className={activeSection === 'final' ? 'strip-item current' : 'strip-item'}>4. Evidencia final</span>
-      </nav>
+        <nav className={`activity-strip ${isIntegrityLocked ? 'activity-strip-disabled' : ''}`} aria-label="Ruta de evaluación">
+          <span
+            className={
+              activeSection === 'match' ? 'strip-item current' : matchResolved === 25 ? 'strip-item done' : 'strip-item'
+            }
+          >
+            1. Relacionar conceptos
+          </span>
+          <span
+            className={activeSection === 'mcq' ? 'strip-item current' : mcqResolved === 50 ? 'strip-item done' : 'strip-item'}
+          >
+            2. Opción múltiple
+          </span>
+          <span
+            className={
+              activeSection === 'swipe' ? 'strip-item current' : swipeResolved === 25 ? 'strip-item done' : 'strip-item'
+            }
+          >
+            3. Verdadero o falso
+          </span>
+          <span className={activeSection === 'final' ? 'strip-item current' : 'strip-item'}>4. Evidencia final</span>
+        </nav>
+      </section>
 
       <main className="content-stack">
         {isIntegrityLocked ? (
