@@ -1,15 +1,15 @@
-# Guia rapida para GitHub y Vercel
+# Guía rápida para GitHub y Vercel
 
-## Que se sube al repositorio
+## Qué se sube al repositorio
 
-Sube el codigo fuente de la aplicacion. No subas carpetas generadas ni archivos de apoyo local. El archivo `.gitignore` ya excluye lo que no hace falta.
+Sube el código fuente de la aplicación. No subas carpetas generadas ni archivos de apoyo local. El archivo `.gitignore` ya excluye lo que no hace falta.
 
 ## Paso 1. Crear el repositorio en GitHub
 
 1. Entra a GitHub.
 2. Haz clic en `New repository`.
-3. Usa un nombre como `evaluacion-modulo-2-infotec`.
-4. Crealo vacio, sin `README`, sin `.gitignore` y sin licencia.
+3. Usa un nombre breve y consistente con el proyecto, por ejemplo `actividad-apoyo-modulo-2-infotec`.
+4. Créalo vacío, sin `README`, sin `.gitignore` y sin licencia.
 
 ## Paso 2. Conectar este proyecto con GitHub
 
@@ -33,10 +33,10 @@ git config --global user.email "tu_correo@ejemplo.com"
 ## Paso 3. Desplegar en Vercel
 
 1. Entra a `https://vercel.com/`.
-2. Inicia sesion con tu cuenta de GitHub.
+2. Inicia sesión con tu cuenta de GitHub.
 3. Elige `Add New` y luego `Project`.
 4. Importa el repositorio.
-5. Verifica esta configuracion:
+5. Verifica esta configuración:
 
 ```text
 Framework Preset: Vite
@@ -46,19 +46,19 @@ Output Directory: dist
 
 6. Haz clic en `Deploy`.
 
-Vercel detecta `pnpm-lock.yaml`, asi que debe instalar dependencias con `pnpm`.
+Vercel detecta `pnpm-lock.yaml`, así que debe instalar dependencias con `pnpm`.
 
-## Paso 4. Que compartir con INFOTEC
+## Paso 4. Qué compartir con INFOTEC
 
 Conviene compartir estas cuatro cosas:
 
-1. Liga publica de Vercel para revision.
-2. Liga del repositorio en GitHub para revision del codigo.
-3. ZIP del codigo fuente limpio.
-4. ZIP de la carpeta `dist` si la plataforma institucional acepta sitios estaticos.
+1. Liga pública de Vercel para revisión.
+2. Liga del repositorio en GitHub para revisión del código.
+3. ZIP del código fuente limpio.
+4. ZIP de la carpeta `dist` si la plataforma institucional acepta sitios estáticos.
 
-## Nota importante sobre la informacion generada
+## Nota importante sobre la información generada
 
-El avance, la calificacion y el progreso de la evaluacion se guardan en el navegador de cada persona. Esos datos no se incluyen solos dentro del repositorio ni del ZIP del proyecto.
+El avance, el desempeño y el progreso de la actividad se guardan en el navegador de cada persona. Esos datos no se incluyen solos dentro del repositorio ni del ZIP del proyecto.
 
-La evidencia final en PNG si se puede descargar y compartir por separado.
+El reporte de práctica en PNG sí se puede descargar y compartir por separado.

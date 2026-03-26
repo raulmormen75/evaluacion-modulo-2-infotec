@@ -7,13 +7,13 @@ export const DEFAULT_THEME_MODE: EvaluationSnapshot['themeMode'] = 'light';
 
 export const INTEGRITY_MESSAGES = {
   unsupported:
-    'Este navegador no admite el resguardo local requerido para esta evaluación. Usa una versión actual de Chrome, Edge, Safari o Firefox.',
+    'Este navegador no admite el resguardo local requerido para esta actividad de apoyo. Usa una versión actual de Chrome, Edge, Safari o Firefox.',
   invalidSignature:
-    'Se detectó una alteración no autorizada del progreso. La evaluación quedó bloqueada para proteger la calificación.',
+    'Se detectó una alteración no autorizada del avance. La sesión de práctica se bloqueó para proteger la continuidad del repaso.',
   rollback:
-    'Se detectó una restauración o retroceso del avance. La evaluación quedó bloqueada para proteger la calificación.',
+    'Se detectó una restauración o retroceso del avance. La sesión de práctica se bloqueó para proteger la continuidad del repaso.',
   resetDetected:
-    'Se detectó un borrado del progreso después de iniciar la evaluación. La sesión quedó bloqueada para proteger la calificación.'
+    'Se detectó un borrado del avance después de iniciar la actividad. La sesión de práctica se bloqueó para proteger la continuidad del repaso.'
 } as const;
 
 function createSeed() {

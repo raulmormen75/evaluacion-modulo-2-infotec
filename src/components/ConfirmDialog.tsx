@@ -18,9 +18,9 @@ export function ConfirmDialog({ isOpen, onCancel, onConfirm }: ConfirmDialogProp
         aria-labelledby="reset-title"
         aria-describedby="reset-description"
       >
-        <h2 id="reset-title">Reiniciar evaluación</h2>
+        <h2 id="reset-title">Reiniciar práctica</h2>
         <p id="reset-description">
-          Se borrará tu avance y la evidencia generada. El modo claro u oscuro se conservará.
+          Se borrará tu avance y el reporte generado. El modo claro u oscuro se conservará.
         </p>
         <div className="dialog-actions">
           <button type="button" className="ghost-button" onClick={onCancel}>

@@ -57,7 +57,7 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
       });
       timerRef.current = window.setTimeout(() => {
         onRecordAttempt(currentItem.id, true);
-      }, 650);
+      }, 1200);
       return;
     }
 
@@ -68,7 +68,7 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
     });
     timerRef.current = window.setTimeout(() => {
       setFeedback(null);
-    }, 850);
+    }, 1800);
   }
 
   return (

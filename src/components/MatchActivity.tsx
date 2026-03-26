@@ -52,7 +52,7 @@ export function MatchActivity({ snapshot, onRecordAttempt }: MatchActivityProps)
       setFeedback(null);
       setIsSubmitting(false);
       callback?.();
-    }, 650);
+    }, 1600);
   }
 
   function handleDefinitionSelect(definitionId: string) {

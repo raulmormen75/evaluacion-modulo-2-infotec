@@ -64,7 +64,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
       });
       timerRef.current = window.setTimeout(() => {
         onRecordAttempt(currentItem.id, true);
-      }, 650);
+      }, 1200);
       return;
     }
 
@@ -79,7 +79,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
       setDragX(0);
       setFeedback(null);
       setIsLocked(false);
-    }, 800);
+    }, 1800);
   }
 
   function handlePointerDown(event: React.PointerEvent<HTMLDivElement>) {

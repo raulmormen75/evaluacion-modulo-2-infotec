@@ -7,6 +7,40 @@ interface FinalSectionProps {
   metrics: EvaluationMetrics;
 }
 
+interface PerformanceMessage {
+  tone: 'success' | 'progress' | 'support';
+  badge: string;
+  title: string;
+  detail: string;
+}
+
+function getPerformanceMessage(scorePercent: number): PerformanceMessage {
+  if (scorePercent >= 90) {
+    return {
+      tone: 'success',
+      badge: 'Muy buen dominio',
+      title: 'Has dominado muy bien los conocimientos del módulo.',
+      detail: 'Continúa con este nivel de repaso para llegar bien preparado a la actividad práctica.'
+    };
+  }
+
+  if (scorePercent >= 70) {
+    return {
+      tone: 'progress',
+      badge: 'Buen avance',
+      title: 'Vas mejorando y tu repaso avanza bien.',
+      detail: 'Conviene practicar un poco más para reforzar los temas del módulo antes de la actividad práctica.'
+    };
+  }
+
+  return {
+    tone: 'support',
+    badge: 'Sigue practicando',
+    title: 'Vas construyendo tu dominio del módulo.',
+    detail: 'Sigue repasando. Practicar te ayudará a lograr un mejor dominio de los temas.'
+  };
+}
+
 export function FinalSection({ metrics }: FinalSectionProps) {
   const evidenceRef = useRef<HTMLDivElement | null>(null);
   const [studentName, setStudentName] = useState('');
@@ -14,9 +48,10 @@ export function FinalSection({ metrics }: FinalSectionProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
   const generationDate = formatDateLong();
+  const performanceMessage = getPerformanceMessage(metrics.scorePercent);
 
   const sanitizedName = sanitizeFileName(studentName) || 'sin-nombre';
-  const fileName = `evaluacion_modulo2_${sanitizedName}_${metrics.scorePercent}.png`;
+  const fileName = `reporte_practica_modulo2_${sanitizedName}_${metrics.scorePercent}.png`;
 
   useEffect(() => {
     return () => {
@@ -53,7 +88,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
     const trimmedName = studentName.trim();
 
     if (!trimmedName) {
-      setErrorMessage('Escribe tu nombre completo para generar la evidencia.');
+      setErrorMessage('Escribe tu nombre completo para generar el reporte de práctica.');
       return;
     }
 
@@ -75,9 +110,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
       updateGeneratedUrl(URL.createObjectURL(blob));
     } catch (error) {
       updateGeneratedUrl('');
-      setErrorMessage(
-        error instanceof Error ? error.message : 'No fue posible generar la evidencia. Intenta de nuevo.'
-      );
+      setErrorMessage(error instanceof Error ? error.message : 'No fue posible generar el reporte. Intenta de nuevo.');
     } finally {
       setIsGenerating(false);
     }
@@ -87,23 +120,23 @@ export function FinalSection({ metrics }: FinalSectionProps) {
     <div className="activity-body">
       <section className="completion-banner">
         <div>
-          <p className="mini-label">Evaluación concluida</p>
-          <h3>Has completado los 100 ejercicios.</h3>
-          <p>Registra tu nombre y prepara la evidencia institucional en imagen.</p>
+          <p className="mini-label">Repaso concluido</p>
+          <h3>Has completado los 100 ejercicios de práctica.</h3>
+          <p>Consulta tu resultado, identifica tu nivel de avance y genera tu reporte de práctica en imagen.</p>
         </div>
         <div className="progress-stack">
-          <div className="progress-chip">Calificación final: {metrics.scorePercent}%</div>
-          <div className="progress-chip">Incorrectos acumulados: {metrics.incorrectAttempts}</div>
+          <div className="progress-chip">Desempeño: {metrics.scorePercent}%</div>
+          <div className="progress-chip">Intentos adicionales: {metrics.incorrectAttempts}</div>
         </div>
       </section>
 
       <div className="final-grid">
         <article className="result-card">
-          <p className="mini-label">Resumen final</p>
-          <h4>Resultado registrado</h4>
+          <p className="mini-label">Resultado de práctica</p>
+          <h4>Tu avance en esta actividad</h4>
           <dl className="result-list">
             <div>
-              <dt>Calificación final</dt>
+              <dt>Desempeño actual</dt>
               <dd>{metrics.scorePercent}%</dd>
             </div>
             <div>
@@ -111,19 +144,25 @@ export function FinalSection({ metrics }: FinalSectionProps) {
               <dd>{metrics.resolvedCount} / 100</dd>
             </div>
             <div>
-              <dt>Incorrectos acumulados</dt>
+              <dt>Intentos adicionales</dt>
               <dd>{metrics.incorrectAttempts}</dd>
             </div>
             <div>
-              <dt>Fecha de generación</dt>
+              <dt>Fecha del reporte</dt>
               <dd>{generationDate}</dd>
             </div>
           </dl>
+
+          <section className={`performance-card performance-${performanceMessage.tone}`}>
+            <span className="performance-badge">{performanceMessage.badge}</span>
+            <h5 className="performance-title">{performanceMessage.title}</h5>
+            <p className="performance-detail">{performanceMessage.detail}</p>
+          </section>
         </article>
 
         <article className="result-card">
-          <p className="mini-label">Evidencia</p>
-          <h4>Genera tu comprobante</h4>
+          <p className="mini-label">Reporte de práctica</p>
+          <h4>Genera tu resumen en imagen</h4>
 
           <label className="field-label" htmlFor="studentName">
             Nombre completo del alumno
@@ -143,7 +182,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
 
           <div className="download-actions">
             <button type="button" className="action-button" disabled={isGenerating} onClick={handleGenerate}>
-              {isGenerating ? 'Generando...' : 'Generar evidencia en imagen'}
+              {isGenerating ? 'Generando...' : 'Generar reporte en imagen'}
             </button>
             <a
               className={`ghost-button download-link ${generatedUrl ? '' : 'is-disabled'}`}
@@ -151,12 +190,12 @@ export function FinalSection({ metrics }: FinalSectionProps) {
               download={fileName}
               aria-disabled={!generatedUrl}
             >
-              Descargar imagen
+              Descargar reporte
             </a>
           </div>
 
           <p className={`feedback-message ${errorMessage ? 'feedback-error' : ''}`} aria-live="polite">
-            {errorMessage || 'La exportación se genera en PNG con presentación institucional.'}
+            {errorMessage || 'El reporte se genera en PNG con presentación institucional.'}
           </p>
         </article>
       </div>
@@ -166,11 +205,11 @@ export function FinalSection({ metrics }: FinalSectionProps) {
           <div className="preview-header">
             <div>
               <p className="mini-label">Vista previa</p>
-              <h4>Evidencia lista para descarga</h4>
+              <h4>Reporte listo para descargar</h4>
             </div>
-            <span className="preview-state">Archivo preparado</span>
+            <span className="preview-state">Archivo listo</span>
           </div>
-          <img src={generatedUrl} alt="Vista previa de la evidencia generada" className="preview-image" />
+          <img src={generatedUrl} alt="Vista previa del reporte de práctica generado" className="preview-image" />
         </section>
       ) : null}
 
@@ -180,7 +219,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
             <img src="/logo_infotec.png" alt="" className="evidence-logo" />
             <div>
               <p>Diplomado en Gobernanza de las Telecomunicaciones</p>
-              <h2>Evaluación final del módulo 2</h2>
+              <h2>Actividad de apoyo y repaso del Módulo 2</h2>
               <strong>Economía Digital y Mercados Emergentes</strong>
             </div>
           </header>
@@ -189,9 +228,15 @@ export function FinalSection({ metrics }: FinalSectionProps) {
             <p className="evidence-label">Nombre del alumno</p>
             <h3>{studentName.trim() || 'Nombre pendiente'}</h3>
 
+            <section className={`evidence-note evidence-note-${performanceMessage.tone}`}>
+              <p>{performanceMessage.badge}</p>
+              <strong>{performanceMessage.title}</strong>
+              <span>{performanceMessage.detail}</span>
+            </section>
+
             <div className="evidence-metrics">
               <article>
-                <span>Calificación final</span>
+                <span>Desempeño de práctica</span>
                 <strong>{metrics.scorePercent}%</strong>
               </article>
               <article>
@@ -199,14 +244,14 @@ export function FinalSection({ metrics }: FinalSectionProps) {
                 <strong>{metrics.resolvedCount} / 100</strong>
               </article>
               <article>
-                <span>Incorrectos acumulados</span>
+                <span>Intentos adicionales</span>
                 <strong>{metrics.incorrectAttempts}</strong>
               </article>
             </div>
 
             <footer className="evidence-footer">
               <p>{generationDate}</p>
-              <p>Evaluación final completada</p>
+              <p>Reporte de práctica generado</p>
             </footer>
           </main>
         </div>

@@ -14,9 +14,10 @@ export function Header({ themeMode, onToggleTheme }: HeaderProps) {
           <img src="/logo_infotec.png" alt="Logo de INFOTEC" className="brand-logo" />
           <div className="hero-copy">
             <p className="eyebrow">Diplomado en Gobernanza de las Telecomunicaciones</p>
-            <h1>Evaluación final del módulo 2. Economía Digital y Mercados Emergentes</h1>
+            <h1>Actividad de apoyo y repaso del Módulo 2. Economía Digital y Mercados Emergentes</h1>
             <p className="hero-subtitle">
-              Completa la ruta en orden, conserva tu avance en este navegador y genera tu evidencia al finalizar.
+              Refuerza los contenidos revisados en clase, practica antes de la actividad práctica y conserva tu avance
+              en este navegador.
             </p>
           </div>
         </div>
@@ -32,9 +33,10 @@ export function Header({ themeMode, onToggleTheme }: HeaderProps) {
         <section className="hero-guidelines" aria-label="Indicaciones iniciales">
           <p className="mini-label">Antes de comenzar</p>
           <ul className="hero-rules">
-            <li>Resuelve una actividad a la vez.</li>
-            <li>Si fallas, repites el reactivo hasta acertar.</li>
-            <li>Tu avance y tu calificación quedan guardados localmente.</li>
+            <li>Resuelve una actividad a la vez para repasar con orden.</li>
+            <li>Si fallas, repites el reactivo hasta reforzar el tema.</li>
+            <li>Tu avance y tu desempeño quedan guardados localmente en este navegador.</li>
+            <li>Esta actividad es de apoyo y no forma parte del porcentaje de evaluación final del módulo.</li>
           </ul>
         </section>
 

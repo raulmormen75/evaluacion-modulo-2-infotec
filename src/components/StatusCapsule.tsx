@@ -9,8 +9,8 @@ function getStatus(metrics: EvaluationMetrics, isLocked: boolean) {
   if (isLocked) {
     return {
       tone: 'blocked',
-      label: 'Sesión bloqueada',
-      note: 'Se requiere revisión de integridad.'
+      label: 'Sesión protegida',
+      note: 'Se requiere revisar la continuidad del avance.'
     };
   }
 
@@ -18,22 +18,22 @@ function getStatus(metrics: EvaluationMetrics, isLocked: boolean) {
     return {
       tone: 'ready',
       label: 'Lista para iniciar',
-      note: 'La evaluación está lista para comenzar.'
+      note: 'La actividad de apoyo está lista para comenzar.'
     };
   }
 
-  if (metrics.scorePercent <= 79) {
+  if (metrics.scorePercent >= 90) {
     return {
-      tone: 'progress',
-      label: 'Avance en curso',
-      note: 'Continúa con la ruta de actividades.'
+      tone: 'success',
+      label: 'Repaso sólido',
+      note: 'Has construido un muy buen dominio del módulo.'
     };
   }
 
   return {
-    tone: 'success',
-    label: 'Buen avance',
-    note: 'Mantén el ritmo para cerrar la evidencia.'
+    tone: 'progress',
+    label: 'Avance en curso',
+    note: 'Continúa practicando para reforzar los temas del módulo.'
   };
 }
 
@@ -44,7 +44,7 @@ export function StatusCapsule({ metrics, isLocked = false }: StatusCapsuleProps)
     <aside className={`status-capsule status-${status.tone}`} aria-live="polite">
       <div className="status-header">
         <div className="status-heading">
-          <p className="status-label">Estado de la evaluación</p>
+          <p className="status-label">Estado del repaso</p>
           <strong>{status.label}</strong>
         </div>
         <span className="status-indicator" aria-hidden="true" />
@@ -58,11 +58,11 @@ export function StatusCapsule({ metrics, isLocked = false }: StatusCapsuleProps)
           <dd>{metrics.resolvedCount} / 100</dd>
         </div>
         <div>
-          <dt>Incorrectos acumulados</dt>
+          <dt>Intentos adicionales</dt>
           <dd>{metrics.incorrectAttempts}</dd>
         </div>
         <div>
-          <dt>Calificación actual</dt>
+          <dt>Desempeño actual</dt>
           <dd>{metrics.scorePercent}%</dd>
         </div>
       </dl>
