@@ -435,6 +435,10 @@ h4 {
   color: var(--ifr-blue-1);
 }
 
+:root[data-theme='dark'] .badge-active {
+  color: var(--white);
+}
+
 .badge-completed {
   background: var(--success-soft);
   color: var(--success);
@@ -1184,6 +1188,88 @@ h4 {
     writing-mode: initial;
     transform: none;
     justify-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(1.55rem, 7vw, 1.95rem);
+    line-height: 1.08;
+  }
+
+  .hero-card,
+  .section-card,
+  .question-card,
+  .result-card,
+  .preview-card,
+  .status-capsule {
+    border-radius: 22px;
+  }
+
+  .hero-top,
+  .section-header {
+    gap: 0.75rem;
+  }
+
+  .hero-subtitle,
+  .section-instructions,
+  .status-note,
+  .locked-message,
+  .loading-message,
+  .security-note {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .theme-strip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .theme-pill {
+    flex: initial;
+    min-width: 0;
+    padding: 0.72rem;
+  }
+
+  .status-header {
+    align-items: flex-start;
+  }
+
+  .status-metrics {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
+  }
+
+  .status-metrics div {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .status-metrics div:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .progress-chip,
+  .section-badge {
+    white-space: normal;
+  }
+
+  .match-button,
+  .option-button {
+    padding: 0.82rem 0.88rem;
+  }
+
+  .swipe-card {
+    min-height: 200px;
+    padding: 1rem;
   }
 }
 
