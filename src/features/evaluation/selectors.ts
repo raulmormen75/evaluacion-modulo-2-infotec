@@ -8,6 +8,7 @@ import {
   swipeItems
 } from '../../data';
 import type { ActivityType, EvaluationSnapshot, MatchBatch } from '../../data';
+import { seededShuffle } from '../../utils/random';
 
 export type ActiveSection = ActivityType | 'final';
 
@@ -67,12 +68,14 @@ export function getCurrentMultipleChoiceIndex(snapshot: EvaluationSnapshot) {
 }
 
 export function getCurrentSwipeItem(snapshot: EvaluationSnapshot) {
-  return swipeItems.find((item) => !snapshot.exercises[item.id]?.resolved) ?? null;
+  const orderedItems = seededShuffle(swipeItems, `${snapshot.seed}-swipe-order`);
+  return orderedItems.find((item) => !snapshot.exercises[item.id]?.resolved) ?? null;
 }
 
 export function getCurrentSwipeIndex(snapshot: EvaluationSnapshot) {
-  const current = getCurrentSwipeItem(snapshot);
-  return current ? swipeItems.findIndex((item) => item.id === current.id) : swipeItems.length - 1;
+  const orderedItems = seededShuffle(swipeItems, `${snapshot.seed}-swipe-order`);
+  const current = orderedItems.find((item) => !snapshot.exercises[item.id]?.resolved) ?? null;
+  return current ? orderedItems.findIndex((item) => item.id === current.id) : orderedItems.length - 1;
 }
 
 export function getCurrentThemeProgressForMcq(snapshot: EvaluationSnapshot) {
