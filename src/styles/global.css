@@ -475,6 +475,10 @@ h4 {
   line-height: 1.5;
 }
 
+.summary-note {
+  font-size: 0.95rem;
+}
+
 .progress-chip,
 .progress-stack {
   display: flex;
@@ -578,7 +582,24 @@ h4 {
   display: flex;
   justify-content: space-between;
   gap: 0.7rem;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.match-button-copy {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.match-button-copy small {
+  color: var(--text-soft);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.match-button-copy strong {
+  font-size: 0.98rem;
 }
 
 .match-button.is-selected {
@@ -702,6 +723,20 @@ h4 {
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: linear-gradient(135deg, var(--info-soft), rgba(198, 165, 122, 0.12));
+}
+
+.score-rule {
+  padding: 1rem 1.05rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--line);
+  background: var(--surface-muted);
+}
+
+.score-rule p:last-child {
+  margin: 0.45rem 0 0;
+  color: var(--text-soft);
+  line-height: 1.55;
+  max-width: 74ch;
 }
 
 .final-grid {
@@ -889,7 +924,7 @@ h4 {
 
 .evidence-metrics {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 18px;
 }
 
@@ -1168,7 +1203,7 @@ h4 {
   }
 
   .status-metrics {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.6rem;
   }
 

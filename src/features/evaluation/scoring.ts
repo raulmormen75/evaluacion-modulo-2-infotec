@@ -61,16 +61,21 @@ export function recordExerciseAttempt(
 
 export function calculateMetrics(snapshot: EvaluationSnapshot): EvaluationMetrics {
   const items = Object.values(snapshot.exercises);
+  const totalExercises = items.length;
   const resolvedCount = items.filter((item) => item.resolved).length;
   const incorrectAttempts = items.reduce((total, item) => total + item.incorrectAttempts, 0);
   const firstAttemptCorrectCount = items.filter((item) => item.resolvedOnFirstAttempt).length;
-  const scorePercent = clamp(firstAttemptCorrectCount - incorrectAttempts, 0, 100);
-  const completionPercent = Math.round((resolvedCount / items.length) * 100);
+  const totalAttempts = items.reduce((total, item) => total + item.attempts, 0);
+  const scorePoints = clamp(resolvedCount - incorrectAttempts * 0.5, 0, totalExercises);
+  const scorePercent = Math.round((scorePoints / totalExercises) * 100);
+  const completionPercent = Math.round((resolvedCount / totalExercises) * 100);
 
   return {
     resolvedCount,
     incorrectAttempts,
     firstAttemptCorrectCount,
+    totalAttempts,
+    scorePoints,
     scorePercent,
     completionPercent
   };

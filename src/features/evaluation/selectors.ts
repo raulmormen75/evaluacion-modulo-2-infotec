@@ -1,13 +1,13 @@
 import {
-  getMatchItemsByTheme,
+  getMatchItemsByBatch,
   getMultipleChoiceItemsByTheme,
   getSwipeItemsByTheme,
+  matchBatches,
   matchItems,
   multipleChoiceItems,
-  swipeItems,
-  themes
+  swipeItems
 } from '../../data';
-import type { ActivityType, EvaluationSnapshot, ThemeId } from '../../data';
+import type { ActivityType, EvaluationSnapshot, MatchBatch } from '../../data';
 
 export type ActiveSection = ActivityType | 'final';
 
@@ -43,22 +43,18 @@ export function getActiveSection(snapshot: EvaluationSnapshot): ActiveSection {
   return 'final';
 }
 
-export function getMatchResolvedCountByTheme(snapshot: EvaluationSnapshot, themeId: ThemeId) {
-  return getResolvedCount(snapshot, getMatchItemsByTheme(themeId).map((item) => item.id));
+export function getMatchResolvedCountByBatch(snapshot: EvaluationSnapshot, batch: MatchBatch) {
+  return getResolvedCount(snapshot, getMatchItemsByBatch(batch).map((item) => item.id));
 }
 
-export function getMatchUnlockedTheme(snapshot: EvaluationSnapshot): ThemeId {
-  for (const theme of themes) {
-    if (getMatchResolvedCountByTheme(snapshot, theme.id) < 5) {
-      return theme.id;
+export function getCurrentMatchBatch(snapshot: EvaluationSnapshot): MatchBatch {
+  for (const batch of matchBatches) {
+    if (getMatchResolvedCountByBatch(snapshot, batch) < getMatchItemsByBatch(batch).length) {
+      return batch;
     }
   }
 
-  return 5;
-}
-
-export function isMatchThemeUnlocked(snapshot: EvaluationSnapshot, themeId: ThemeId) {
-  return getMatchUnlockedTheme(snapshot) >= themeId;
+  return matchBatches[matchBatches.length - 1];
 }
 
 export function getCurrentMultipleChoiceItem(snapshot: EvaluationSnapshot) {

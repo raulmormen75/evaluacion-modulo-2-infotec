@@ -6,14 +6,13 @@ import { MultipleChoiceActivity } from './components/MultipleChoiceActivity';
 import { SectionCard } from './components/SectionCard';
 import { StatusCapsule } from './components/StatusCapsule';
 import { SwipeActivity } from './components/SwipeActivity';
-import type { EvaluationSnapshot } from './data';
+import { matchItems, multipleChoiceItems, swipeItems, type EvaluationSnapshot } from './data';
 import { getActiveSection, getResolvedCountByActivity } from './features/evaluation/selectors';
 import { calculateMetrics, recordExerciseAttempt } from './features/evaluation/scoring';
-import { loadSnapshot, saveSnapshot } from './features/evaluation/storage';
+import { loadSnapshot } from './features/evaluation/storage';
 
 export function App() {
   const [snapshot, setSnapshot] = useState<EvaluationSnapshot | null>(null);
-  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -26,7 +25,6 @@ export function App() {
       }
 
       setSnapshot(loadedSnapshot);
-      setIsReady(true);
     }
 
     void initialize();
@@ -43,13 +41,7 @@ export function App() {
 
     document.documentElement.dataset.theme = snapshot.themeMode;
     document.documentElement.style.colorScheme = snapshot.themeMode;
-
-    if (!isReady) {
-      return;
-    }
-
-    void saveSnapshot(snapshot);
-  }, [isReady, snapshot]);
+  }, [snapshot]);
 
   if (!snapshot) {
     return (
@@ -58,7 +50,7 @@ export function App() {
           <SectionCard
             step="Carga"
             title="Preparando la actividad de apoyo"
-            instructions="Estamos recuperando tu avance local antes de mostrar los ejercicios."
+            instructions="Estamos iniciando una nueva sesión de práctica antes de mostrar los ejercicios."
             state="active"
           >
             <p className="loading-message">Un momento, por favor.</p>
@@ -73,11 +65,10 @@ export function App() {
   const matchResolved = getResolvedCountByActivity(snapshot, 'match');
   const mcqResolved = getResolvedCountByActivity(snapshot, 'mcq');
   const swipeResolved = getResolvedCountByActivity(snapshot, 'swipe');
-  const isIntegrityLocked = snapshot.integrityStatus === 'locked';
 
   function handleRecordAttempt(exerciseId: string, wasCorrect: boolean) {
     setSnapshot((previous) => {
-      if (!previous || previous.integrityStatus === 'locked') {
+      if (!previous) {
         return previous;
       }
 
@@ -108,28 +99,18 @@ export function App() {
           </div>
 
           <aside className="app-sidebar" aria-label="Estado del repaso">
-            <StatusCapsule metrics={metrics} isLocked={isIntegrityLocked} />
+            <StatusCapsule metrics={metrics} />
           </aside>
         </div>
 
-        <nav className={`activity-strip ${isIntegrityLocked ? 'activity-strip-disabled' : ''}`} aria-label="Ruta de práctica y repaso">
-          <span
-            className={
-              activeSection === 'match' ? 'strip-item current' : matchResolved === 25 ? 'strip-item done' : 'strip-item'
-            }
-          >
+        <nav className="activity-strip" aria-label="Ruta de práctica y repaso">
+          <span className={activeSection === 'match' ? 'strip-item current' : matchResolved === matchItems.length ? 'strip-item done' : 'strip-item'}>
             1. Relacionar conceptos
           </span>
-          <span
-            className={activeSection === 'mcq' ? 'strip-item current' : mcqResolved === 50 ? 'strip-item done' : 'strip-item'}
-          >
+          <span className={activeSection === 'mcq' ? 'strip-item current' : mcqResolved === multipleChoiceItems.length ? 'strip-item done' : 'strip-item'}>
             2. Opción múltiple
           </span>
-          <span
-            className={
-              activeSection === 'swipe' ? 'strip-item current' : swipeResolved === 25 ? 'strip-item done' : 'strip-item'
-            }
-          >
+          <span className={activeSection === 'swipe' ? 'strip-item current' : swipeResolved === swipeItems.length ? 'strip-item done' : 'strip-item'}>
             3. Verdadero o falso
           </span>
           <span className={activeSection === 'final' ? 'strip-item current' : 'strip-item'}>4. Resultado de práctica</span>
@@ -137,81 +118,75 @@ export function App() {
       </section>
 
       <main className="content-stack">
-        {isIntegrityLocked ? (
+        <SectionCard
+          step="Actividad 1"
+          title="Relacionar conceptos"
+          instructions="Primero relaciona 5 conceptos. Al completar ese bloque, se desbloquean los otros 5."
+          state={matchResolved === matchItems.length ? 'completed' : 'active'}
+        >
+          {matchResolved === matchItems.length ? (
+            <p className="locked-message">Los 10 ejercicios de relacionar conceptos ya quedaron resueltos.</p>
+          ) : (
+            <MatchActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
+          )}
+        </SectionCard>
+
+        <SectionCard
+          step="Actividad 2"
+          title="Opción múltiple"
+          instructions="Verás un reactivo por vista. Si fallas, vuelves a intentarlo hasta reforzar la respuesta correcta."
+          state={
+            matchResolved < matchItems.length
+              ? 'locked'
+              : mcqResolved === multipleChoiceItems.length
+                ? 'completed'
+                : activeSection === 'mcq'
+                  ? 'active'
+                  : 'locked'
+          }
+        >
+          {matchResolved < matchItems.length ? (
+            <p className="locked-message">Se desbloquea al completar la Actividad 1.</p>
+          ) : mcqResolved === multipleChoiceItems.length ? (
+            <p className="locked-message">Los 10 reactivos de opción múltiple ya quedaron resueltos.</p>
+          ) : (
+            <MultipleChoiceActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
+          )}
+        </SectionCard>
+
+        <SectionCard
+          step="Actividad 3"
+          title="Verdadero o falso con deslizamiento"
+          instructions="Desliza la tarjeta o usa las flechas del teclado. Si fallas, repites el mismo enunciado para reforzar el tema."
+          state={
+            mcqResolved < multipleChoiceItems.length
+              ? 'locked'
+              : swipeResolved === swipeItems.length
+                ? 'completed'
+                : activeSection === 'swipe'
+                  ? 'active'
+                  : 'locked'
+          }
+        >
+          {mcqResolved < multipleChoiceItems.length ? (
+            <p className="locked-message">Se desbloquea al completar la Actividad 2.</p>
+          ) : swipeResolved === swipeItems.length ? (
+            <p className="locked-message">Los 10 planteamientos de verdadero o falso ya quedaron resueltos.</p>
+          ) : (
+            <SwipeActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
+          )}
+        </SectionCard>
+
+        {activeSection === 'final' ? (
           <SectionCard
-            step="Seguridad"
-            title="Sesión de práctica protegida"
-            instructions="Se detectó una alteración del avance o un intento de reinicio fuera del flujo permitido."
-            state="locked"
+            step="Actividad 4"
+            title="Resultado de práctica y descarga del reporte"
+            instructions="Escribe tu nombre completo y genera tu reporte de práctica en PNG."
+            state="active"
           >
-            <div className="security-panel" role="alert">
-              <p className="security-message">
-                {snapshot.integrityMessage ??
-                  'La sesión de práctica se bloqueó para proteger la continuidad del avance en este navegador.'}
-              </p>
-              <p className="security-note">
-                Esta versión no tiene backend. Aun así, la app registra una firma local y control anti-rollback para
-                reducir alteraciones del avance en este navegador.
-              </p>
-            </div>
+            <FinalSection metrics={metrics} />
           </SectionCard>
-        ) : (
-          <>
-            <SectionCard
-              step="Actividad 1"
-              title="Relacionar conceptos"
-              instructions="Trabaja un tema por vez. El siguiente tema se desbloquea cuando completas las 5 relaciones del actual."
-              state={matchResolved === 25 ? 'completed' : 'active'}
-            >
-              {matchResolved === 25 ? (
-                <p className="locked-message">Los cinco temas ya quedaron repasados en esta actividad.</p>
-              ) : (
-                <MatchActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
-              )}
-            </SectionCard>
-
-            <SectionCard
-              step="Actividad 2"
-              title="Opción múltiple"
-              instructions="Verás una sola pregunta por vista. Si fallas, vuelves a intentarlo hasta reforzar la respuesta correcta."
-              state={matchResolved < 25 ? 'locked' : mcqResolved === 50 ? 'completed' : activeSection === 'mcq' ? 'active' : 'locked'}
-            >
-              {matchResolved < 25 ? (
-                <p className="locked-message">Se desbloquea al completar la Actividad 1.</p>
-              ) : mcqResolved === 50 ? (
-                <p className="locked-message">Las 50 preguntas de opción múltiple ya quedaron resueltas.</p>
-              ) : (
-                <MultipleChoiceActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
-              )}
-            </SectionCard>
-
-            <SectionCard
-              step="Actividad 3"
-              title="Verdadero o falso con deslizamiento"
-              instructions="Desliza la tarjeta o usa las flechas del teclado. Si fallas, repites el mismo enunciado para reforzar el tema."
-              state={mcqResolved < 50 ? 'locked' : swipeResolved === 25 ? 'completed' : activeSection === 'swipe' ? 'active' : 'locked'}
-            >
-              {mcqResolved < 50 ? (
-                <p className="locked-message">Se desbloquea al completar la Actividad 2.</p>
-              ) : swipeResolved === 25 ? (
-                <p className="locked-message">Los 25 enunciados ya quedaron resueltos.</p>
-              ) : (
-                <SwipeActivity snapshot={snapshot} onRecordAttempt={handleRecordAttempt} />
-              )}
-            </SectionCard>
-
-            {activeSection === 'final' ? (
-              <SectionCard
-                step="Actividad 4"
-                title="Resultado de práctica y descarga del reporte"
-                instructions="Escribe tu nombre completo y genera tu reporte de práctica en PNG."
-                state="active"
-              >
-                <FinalSection metrics={metrics} />
-              </SectionCard>
-            ) : null}
-          </>
-        )}
+        ) : null}
       </main>
     </div>
   );

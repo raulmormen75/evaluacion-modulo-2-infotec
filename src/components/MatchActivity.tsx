@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { getMatchItemsByTheme, getThemeById, type EvaluationSnapshot } from '../data';
-import { getMatchResolvedCountByTheme, getMatchUnlockedTheme } from '../features/evaluation/selectors';
+import { getMatchItemsByBatch, getThemeById, matchBatches, type EvaluationSnapshot } from '../data';
+import { getCurrentMatchBatch, getMatchResolvedCountByBatch } from '../features/evaluation/selectors';
 import { seededShuffle } from '../utils/random';
 
 interface MatchActivityProps {
@@ -14,26 +14,26 @@ interface FeedbackState {
 }
 
 export function MatchActivity({ snapshot, onRecordAttempt }: MatchActivityProps) {
-  const themeId = getMatchUnlockedTheme(snapshot);
-  const theme = getThemeById(themeId);
-  const items = getMatchItemsByTheme(themeId);
-  const resolvedCount = getMatchResolvedCountByTheme(snapshot, themeId);
+  const batch = getCurrentMatchBatch(snapshot);
+  const items = getMatchItemsByBatch(batch);
+  const resolvedCount = getMatchResolvedCountByBatch(snapshot, batch);
   const [selectedConceptId, setSelectedConceptId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<FeedbackState | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const timerRef = useRef<number | null>(null);
 
-  const conceptOrder = seededShuffle(items, `${snapshot.seed}-match-concepts-${themeId}`);
-  const definitionOrder = seededShuffle(items, `${snapshot.seed}-match-definitions-${themeId}`);
+  const conceptOrder = seededShuffle(items, `${snapshot.seed}-match-concepts-${batch}`);
+  const definitionOrder = seededShuffle(items, `${snapshot.seed}-match-definitions-${batch}`);
   const resolvedDefinitionIds = new Set(
     items.filter((item) => snapshot.exercises[item.id]?.resolved).map((item) => item.definitionId)
   );
+  const themeList = items.map((item) => getThemeById(item.themeId).shortTitle).join(' · ');
 
   useEffect(() => {
     setSelectedConceptId(null);
     setFeedback(null);
     setIsSubmitting(false);
-  }, [themeId]);
+  }, [batch]);
 
   useEffect(() => {
     return () => {
@@ -101,21 +101,23 @@ export function MatchActivity({ snapshot, onRecordAttempt }: MatchActivityProps)
     <div className="activity-body">
       <div className="activity-summary">
         <div>
-          <p className="mini-label">{theme.label}</p>
-          <h3>{theme.title}</h3>
-          <p>{theme.description}</p>
+          <p className="mini-label">Bloque {batch} de {matchBatches.length}</p>
+          <h3>Relaciona 5 conceptos del módulo</h3>
+          <p>Completa este bloque para abrir el siguiente. Cada bloque reúne un concepto por tema.</p>
+          <p className="summary-note">Temas incluidos: {themeList}</p>
         </div>
-        <div className="progress-chip" aria-label={`Avance del tema ${resolvedCount} de 5`}>
-          {resolvedCount} / 5 correctas
+        <div className="progress-chip" aria-label={`Avance del bloque ${resolvedCount} de ${items.length}`}>
+          {resolvedCount} / {items.length} correctas
         </div>
       </div>
 
-      <div className="match-grid" role="group" aria-label={`Relacionar conceptos del ${theme.title}`}>
+      <div className="match-grid" role="group" aria-label={`Relacionar conceptos del bloque ${batch}`}>
         <div className="match-column">
           <h4>Conceptos</h4>
           {conceptOrder.map((item) => {
             const progress = snapshot.exercises[item.id];
             const isSelected = selectedConceptId === item.id;
+            const theme = getThemeById(item.themeId);
 
             return (
               <button
@@ -125,7 +127,10 @@ export function MatchActivity({ snapshot, onRecordAttempt }: MatchActivityProps)
                 disabled={progress?.resolved || isSubmitting}
                 onClick={() => setSelectedConceptId(item.id)}
               >
-                <span>{item.concept}</span>
+                <span className="match-button-copy">
+                  <small>{theme.label}</small>
+                  <strong>{item.concept}</strong>
+                </span>
                 {progress?.resolved ? <strong>Listo</strong> : null}
               </button>
             );

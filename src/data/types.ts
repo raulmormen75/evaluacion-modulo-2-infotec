@@ -1,4 +1,5 @@
 export type ThemeId = 1 | 2 | 3 | 4 | 5;
+export type MatchBatch = 1 | 2;
 export type ActivityType = 'match' | 'mcq' | 'swipe';
 export type Difficulty = 'facil' | 'intermedio';
 
@@ -21,6 +22,7 @@ export interface BaseExercise {
 
 export interface MatchItem extends BaseExercise {
   activity: 'match';
+  batch: MatchBatch;
   concept: string;
   definitionId: string;
   definition: string;
@@ -68,6 +70,8 @@ export interface EvaluationMetrics {
   resolvedCount: number;
   incorrectAttempts: number;
   firstAttemptCorrectCount: number;
+  totalAttempts: number;
+  scorePoints: number;
   scorePercent: number;
   completionPercent: number;
 }

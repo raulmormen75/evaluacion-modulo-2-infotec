@@ -1,6 +1,6 @@
 import html2canvas from 'html2canvas';
 import { useEffect, useRef, useState } from 'react';
-import type { EvaluationMetrics } from '../data';
+import { totalExercises, type EvaluationMetrics } from '../data';
 import { formatDateLong, sanitizeFileName } from '../utils/format';
 
 interface FinalSectionProps {
@@ -49,6 +49,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
   const [generatedUrl, setGeneratedUrl] = useState('');
   const generationDate = formatDateLong();
   const performanceMessage = getPerformanceMessage(metrics.scorePercent);
+  const scoringExplanation = `Los ${totalExercises} ejercicios valen el 100 %. Cada ejercicio completado suma 1 punto y cada intento fallido descuenta medio punto. Ejemplo: 10 ejercicios completados y 2 intentos fallidos dejan 9 puntos de 30, equivalente a 30 %.`;
 
   const sanitizedName = sanitizeFileName(studentName) || 'sin-nombre';
   const fileName = `reporte_practica_modulo2_${sanitizedName}_${metrics.scorePercent}.png`;
@@ -121,13 +122,18 @@ export function FinalSection({ metrics }: FinalSectionProps) {
       <section className="completion-banner">
         <div>
           <p className="mini-label">Repaso concluido</p>
-          <h3>Has completado los 100 ejercicios de práctica.</h3>
+          <h3>Has completado los {totalExercises} ejercicios de práctica.</h3>
           <p>Consulta tu resultado, identifica tu nivel de avance y genera tu reporte de práctica en imagen.</p>
         </div>
         <div className="progress-stack">
-          <div className="progress-chip">Desempeño: {metrics.scorePercent}%</div>
-          <div className="progress-chip">Intentos adicionales: {metrics.incorrectAttempts}</div>
+          <div className="progress-chip">Resultado: {metrics.scorePercent}%</div>
+          <div className="progress-chip">Intentos fallidos: {metrics.incorrectAttempts}</div>
         </div>
+      </section>
+
+      <section className="score-rule">
+        <p className="mini-label">Cómo se calculó</p>
+        <p>{scoringExplanation}</p>
       </section>
 
       <div className="final-grid">
@@ -136,16 +142,24 @@ export function FinalSection({ metrics }: FinalSectionProps) {
           <h4>Tu avance en esta actividad</h4>
           <dl className="result-list">
             <div>
-              <dt>Desempeño actual</dt>
+              <dt>Resultado actual</dt>
               <dd>{metrics.scorePercent}%</dd>
             </div>
             <div>
-              <dt>Resueltos</dt>
-              <dd>{metrics.resolvedCount} / 100</dd>
+              <dt>Ejercicios completados</dt>
+              <dd>{metrics.resolvedCount} / {totalExercises}</dd>
             </div>
             <div>
-              <dt>Intentos adicionales</dt>
+              <dt>Correctas al primer intento</dt>
+              <dd>{metrics.firstAttemptCorrectCount}</dd>
+            </div>
+            <div>
+              <dt>Intentos fallidos</dt>
               <dd>{metrics.incorrectAttempts}</dd>
+            </div>
+            <div>
+              <dt>Intentos realizados</dt>
+              <dd>{metrics.totalAttempts}</dd>
             </div>
             <div>
               <dt>Fecha del reporte</dt>
@@ -236,15 +250,19 @@ export function FinalSection({ metrics }: FinalSectionProps) {
 
             <div className="evidence-metrics">
               <article>
-                <span>Desempeño de práctica</span>
+                <span>Resultado final</span>
                 <strong>{metrics.scorePercent}%</strong>
               </article>
               <article>
-                <span>Ejercicios resueltos</span>
-                <strong>{metrics.resolvedCount} / 100</strong>
+                <span>Ejercicios completados</span>
+                <strong>{metrics.resolvedCount} / {totalExercises}</strong>
               </article>
               <article>
-                <span>Intentos adicionales</span>
+                <span>Correctas al primer intento</span>
+                <strong>{metrics.firstAttemptCorrectCount}</strong>
+              </article>
+              <article>
+                <span>Intentos fallidos</span>
                 <strong>{metrics.incorrectAttempts}</strong>
               </article>
             </div>

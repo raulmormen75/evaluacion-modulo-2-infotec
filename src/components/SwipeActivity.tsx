@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { getThemeById, type EvaluationSnapshot } from '../data';
+import { getThemeById, swipeItems, type EvaluationSnapshot } from '../data';
 import { getCurrentSwipeIndex, getCurrentSwipeItem, getCurrentThemeProgressForSwipe } from '../features/evaluation/selectors';
 
 interface SwipeActivityProps {
@@ -143,7 +143,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
         </div>
         <div className="progress-stack">
           <div className="progress-chip">Tema: {themeProgress.resolved} / {themeProgress.total}</div>
-          <div className="progress-chip">Total: {statementIndex + 1} / 25</div>
+          <div className="progress-chip">Total: {statementIndex + 1} / {swipeItems.length}</div>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import type { EvaluationMetrics } from '../data';
+import { totalExercises, type EvaluationMetrics } from '../data';
 
 interface StatusCapsuleProps {
   metrics: EvaluationMetrics;
@@ -54,15 +54,19 @@ export function StatusCapsule({ metrics, isLocked = false }: StatusCapsuleProps)
 
       <dl className="status-metrics">
         <div>
-          <dt>Resueltos</dt>
-          <dd>{metrics.resolvedCount} / 100</dd>
+          <dt>Ejercicios completados</dt>
+          <dd>{metrics.resolvedCount} / {totalExercises}</dd>
         </div>
         <div>
-          <dt>Intentos adicionales</dt>
+          <dt>Correctas al primer intento</dt>
+          <dd>{metrics.firstAttemptCorrectCount}</dd>
+        </div>
+        <div>
+          <dt>Intentos fallidos</dt>
           <dd>{metrics.incorrectAttempts}</dd>
         </div>
         <div>
-          <dt>Desempeño actual</dt>
+          <dt>Resultado actual</dt>
           <dd>{metrics.scorePercent}%</dd>
         </div>
       </dl>

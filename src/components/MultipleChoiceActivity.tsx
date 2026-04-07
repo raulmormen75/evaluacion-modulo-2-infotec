@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { getThemeById, type EvaluationSnapshot } from '../data';
+import { getThemeById, multipleChoiceItems, type EvaluationSnapshot } from '../data';
 import {
   getCurrentMultipleChoiceIndex,
   getCurrentMultipleChoiceItem,
@@ -81,8 +81,8 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
         </div>
         <div className="progress-stack">
           <div className="progress-chip">Tema: {themeProgress.resolved} / {themeProgress.total}</div>
-        <div className="progress-chip">Total: {questionIndex + 1} / 50</div>
-      </div>
+          <div className="progress-chip">Total: {questionIndex + 1} / {multipleChoiceItems.length}</div>
+        </div>
       </div>
 
       <article className="question-card">

@@ -18,18 +18,20 @@ function createSnapshot(): EvaluationSnapshot {
 }
 
 describe('Puntaje y avance', () => {
-  it('suma un punto cuando el reactivo queda correcto al primer intento', () => {
+  it('suma el avance de un ejercicio correcto al primer intento', () => {
     const snapshot = recordExerciseAttempt(createSnapshot(), matchItems[0].id, true);
     const metrics = calculateMetrics(snapshot);
 
     expect(metrics.resolvedCount).toBe(1);
     expect(metrics.firstAttemptCorrectCount).toBe(1);
     expect(metrics.incorrectAttempts).toBe(0);
-    expect(metrics.scorePercent).toBe(1);
+    expect(metrics.totalAttempts).toBe(1);
+    expect(metrics.scorePoints).toBe(1);
+    expect(metrics.scorePercent).toBe(3);
     expect(snapshot.sequence).toBe(1);
   });
 
-  it('resta por error y no suma si el reactivo se corrige después', () => {
+  it('descuenta medio punto por cada intento fallido aunque luego se corrija', () => {
     const withError = recordExerciseAttempt(createSnapshot(), matchItems[0].id, false);
     const resolvedLater = recordExerciseAttempt(withError, matchItems[0].id, true);
     const metrics = calculateMetrics(resolvedLater);
@@ -37,15 +39,18 @@ describe('Puntaje y avance', () => {
     expect(metrics.resolvedCount).toBe(1);
     expect(metrics.firstAttemptCorrectCount).toBe(0);
     expect(metrics.incorrectAttempts).toBe(1);
-    expect(metrics.scorePercent).toBe(0);
+    expect(metrics.totalAttempts).toBe(2);
+    expect(metrics.scorePoints).toBe(0.5);
+    expect(metrics.scorePercent).toBe(2);
     expect(resolvedLater.sequence).toBe(2);
   });
 
-  it('no deja que la calificación baje de 0', () => {
+  it('no deja que el resultado baje de 0', () => {
     let snapshot = createSnapshot();
 
     snapshot = recordExerciseAttempt(snapshot, matchItems[0].id, false);
     snapshot = recordExerciseAttempt(snapshot, matchItems[1].id, false);
+    snapshot = recordExerciseAttempt(snapshot, matchItems[2].id, false);
 
     expect(calculateMetrics(snapshot).scorePercent).toBe(0);
   });
