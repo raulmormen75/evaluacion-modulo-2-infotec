@@ -1,854 +1,743 @@
-import type { MultipleChoiceItem } from './types';
+import type { Difficulty, MultipleChoiceItem, MultipleChoiceOption, ThemeId } from './types';
+
+function option(id: MultipleChoiceOption['id'], text: string): MultipleChoiceOption {
+  return { id, text };
+}
+
+function mcq(
+  id: string,
+  themeId: ThemeId,
+  subtype: string,
+  question: string,
+  correctAnswer: MultipleChoiceOption['id'],
+  options: MultipleChoiceOption[],
+  difficulty: Difficulty = 'intermedio'
+): MultipleChoiceItem {
+  return {
+    id,
+    themeId,
+    activity: 'mcq',
+    subtype,
+    prompt: question,
+    difficulty,
+    question,
+    options,
+    correctAnswer
+  };
+}
 
 export const multipleChoiceItems: MultipleChoiceItem[] = [
-  {
-    id: 'mcq-t1-1',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué vuelve a una plataforma un operador de facto en telecomunicaciones?',
-    difficulty: 'facil',
-    question: '¿Qué vuelve a una plataforma un operador de facto en telecomunicaciones?',
-    options: [
-      { id: 'a', text: 'Que condicione de hecho el acceso, la visibilidad o la comunicación aunque no posea la red.' },
-      { id: 'b', text: 'Que tenga una sucursal bancaria en cada estado del país.' },
-      { id: 'c', text: 'Que solo venda publicidad impresa.' },
-      { id: 'd', text: 'Que preste servicios sin usar internet.' },
-      { id: 'e', text: 'Que elimine todo tratamiento de datos.' }
+  mcq(
+    'mcq-t1-1',
+    1,
+    'concepto_base',
+    '¿Qué convierte a una plataforma en operador de facto en telecomunicaciones?',
+    'a',
+    [
+      option('a', 'Que condicione acceso, visibilidad o comunicación aunque no posea la red física.'),
+      option('b', 'Que solo venda publicidad impresa y no use internet.'),
+      option('c', 'Que opere exclusivamente con concesión bancaria.'),
+      option('d', 'Que elimine cualquier tratamiento de datos del usuario.'),
+      option('e', 'Que solo preste servicios presenciales.')
     ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t1-2',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué describe mejor a un mercado multilateral?',
-    difficulty: 'facil',
-    question: '¿Qué describe mejor a un mercado multilateral?',
-    options: [
-      { id: 'a', text: 'Un mercado donde solo importa el precio final del producto físico.' },
-      { id: 'b', text: 'Un esquema donde una plataforma conecta grupos distintos que se benefician mutuamente.' },
-      { id: 'c', text: 'Un mercado público donde todos los servicios son gratuitos por ley.' },
-      { id: 'd', text: 'Una red que no necesita usuarios para generar valor.' },
-      { id: 'e', text: 'Una tienda en la que no intervienen datos ni reglas privadas.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t1-2',
+    1,
+    'concepto_base',
+    '¿Qué rasgo define mejor a un mercado multilateral?',
+    'b',
+    [
+      option('a', 'Un mercado donde el precio final es la única variable relevante.'),
+      option('b', 'Un mercado donde una plataforma conecta distintos grupos y coordina sus interacciones.'),
+      option('c', 'Un esquema donde solo participa un tipo de usuario.'),
+      option('d', 'Una red pública donde todo servicio debe ser gratuito por ley.'),
+      option('e', 'Una estructura que no depende de datos ni audiencias.')
     ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t1-3',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'conceptual',
-    prompt: '¿Qué expresan los efectos de red en plataformas digitales?',
-    difficulty: 'facil',
-    question: '¿Qué expresan los efectos de red en plataformas digitales?',
-    options: [
-      { id: 'a', text: 'Que el valor del servicio crece conforme participan más usuarios o grupos conectados.' },
-      { id: 'b', text: 'Que toda plataforma debe cobrar la misma tarifa.' },
-      { id: 'c', text: 'Que la regulación desaparece cuando aumenta la audiencia.' },
-      { id: 'd', text: 'Que el tráfico de red siempre baja cuando hay más usuarios.' },
-      { id: 'e', text: 'Que la plataforma deja de competir cuando usa anuncios.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t1-3',
+    1,
+    'dinamica',
+    '¿Qué efecto económico pueden producir los efectos de red indirectos?',
+    'c',
+    [
+      option('a', 'Eliminar toda ventaja derivada del tamaño.'),
+      option('b', 'Reducir automáticamente la dependencia de la plataforma dominante.'),
+      option('c', 'Acelerar la concentración porque cada lado del mercado gana valor cuando crece el otro.'),
+      option('d', 'Impedir que las plataformas se expandan hacia mercados adyacentes.'),
+      option('e', 'Volver irrelevante el control de datos y audiencias.')
     ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t1-4',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'reconocimiento',
-    prompt: '¿Cuál es un ejemplo de servicio OTT mencionado en el módulo?',
-    difficulty: 'facil',
-    question: '¿Cuál es un ejemplo de servicio OTT mencionado en el módulo?',
-    options: [
-      { id: 'a', text: 'Un concesionario de espectro radioeléctrico.' },
-      { id: 'b', text: 'Una ventanilla de atención municipal.' },
-      { id: 'c', text: 'Una aplicación de mensajería que opera sobre internet.' },
-      { id: 'd', text: 'Una fábrica de terminales sin conexión a internet.' },
-      { id: 'e', text: 'Un archivo PDF sin interacción digital.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t1-4',
+    1,
+    'interfaz',
+    'Según el documento, ¿por qué el control de una tienda de aplicaciones o de un sistema operativo puede ser más decisivo que la propiedad de la red?',
+    'b',
+    [
+      option('a', 'Porque sustituye por completo a la infraestructura física.'),
+      option('b', 'Porque controla entrada, visibilidad, compatibilidad y acceso de terceros al ecosistema.'),
+      option('c', 'Porque impide cualquier regulación sectorial de telecomunicaciones.'),
+      option('d', 'Porque elimina los costos de cambio entre proveedores.'),
+      option('e', 'Porque hace innecesario el uso de datos para competir.')
+    ]
+  ),
+  mcq(
+    'mcq-t1-5',
+    1,
+    'dma',
+    '¿Qué reconoce el Reglamento de Mercados Digitales al exigir interoperabilidad en ciertos servicios de mensajería?',
+    'd',
+    [
+      option('a', 'Que la mensajería digital dejó de depender de internet.'),
+      option('b', 'Que solo los operadores móviles pueden ofrecer mensajería interoperable.'),
+      option('c', 'Que la publicidad digital sustituye toda discusión sobre telecomunicaciones.'),
+      option('d', 'Que algunas plataformas de mensajería funcionan como infraestructuras privadas de comunicación con efectos amplios sobre competencia y acceso.'),
+      option('e', 'Que la gratuidad del servicio elimina cualquier riesgo competitivo.')
+    ]
+  ),
+  mcq(
+    'mcq-t1-6',
+    1,
+    'comparado',
+    '¿Qué empezó a operar el Reino Unido desde enero de 2025 para mercados digitales?',
+    'c',
+    [
+      option('a', 'Un sistema que prohíbe toda investigación sobre plataformas grandes.'),
+      option('b', 'Un impuesto único a cualquier servicio OTT sin análisis previo.'),
+      option('c', 'Un régimen especial para empresas con Strategic Market Status y medidas procompetitivas.'),
+      option('d', 'Un esquema que elimina obligaciones sobre datos e interoperabilidad.'),
+      option('e', 'Una autoridad exclusiva para cableoperadoras tradicionales.')
+    ]
+  ),
+  mcq(
+    'mcq-t1-7',
+    1,
+    'mexico',
+    '¿Qué reportó el IFT sobre la oferta OTT en México a junio de 2025?',
+    'e',
+    [
+      option('a', 'Que solo existían 12 plataformas autorizadas.'),
+      option('b', 'Que la totalidad de la oferta era de cableoperadoras.'),
+      option('c', 'Que todos los servicios OTT eran de pago por suscripción.'),
+      option('d', 'Que ya no había plataformas de live streaming en el país.'),
+      option('e', 'Que había 104 plataformas disponibles, con modelos de negocio y origen empresarial diversos.')
+    ]
+  ),
+  mcq(
+    'mcq-t1-8',
+    1,
+    'estadistica',
+    '¿Qué dato describe mejor la digitalización mexicana observada en el documento para 2024?',
+    'b',
+    [
+      option('a', 'Menos de la mitad de la población usó internet y solo una tercera parte de los hogares tuvo conexión.'),
+      option('b', '83.1 % de la población de seis años y más usó internet y 73.6 % de los hogares tuvo conectividad.'),
+      option('c', 'Internet quedó limitado principalmente a zonas rurales.'),
+      option('d', 'La mayoría de las personas usuarias se conectó desde equipos no móviles.'),
+      option('e', 'Las compras por internet ya alcanzaron a toda la población usuaria.')
     ],
-    correctAnswer: 'c'
-  },
-  {
-    id: 'mcq-t1-5',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Por qué el «zero rating» puede generar un problema competitivo?',
-    difficulty: 'intermedio',
-    question: '¿Por qué el «zero rating» puede generar un problema competitivo?',
-    options: [
-      { id: 'a', text: 'Porque obliga a todos los usuarios a pagar con criptomonedas.' },
-      { id: 'b', text: 'Porque prioriza comercialmente ciertas aplicaciones y puede distorsionar la elección del usuario.' },
-      { id: 'c', text: 'Porque impide toda clase de innovación en equipos terminales.' },
-      { id: 'd', text: 'Porque elimina el uso de datos personales por completo.' },
-      { id: 'e', text: 'Porque prohíbe cualquier acuerdo entre operadores y comercios.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t1-9',
+    1,
+    'remedio',
+    '¿Por qué interoperabilidad y portabilidad aparecen como remedios procompetitivos en este tema?',
+    'c',
+    [
+      option('a', 'Porque obligan al usuario a permanecer en una sola plataforma.'),
+      option('b', 'Porque sustituyen toda autoridad sectorial y de competencia.'),
+      option('c', 'Porque reducen costos de cambio, facilitan uso simultáneo de servicios y bajan barreras de entrada.'),
+      option('d', 'Porque eliminan cualquier necesidad de vigilar plataformas dominantes.'),
+      option('e', 'Porque impiden el intercambio de datos entre usuarios.')
+    ]
+  ),
+  mcq(
+    'mcq-t1-10',
+    1,
+    'neutralidad',
+    '¿Por qué la neutralidad de la red sigue siendo relevante en un entorno dominado por plataformas?',
+    'a',
+    [
+      option('a', 'Porque si la red favorece ciertas aplicaciones o acuerdos de zero rating, puede distorsionar competencia y elección del usuario.'),
+      option('b', 'Porque solo se aplica cuando desaparecen las plataformas digitales.'),
+      option('c', 'Porque sustituye por completo a la interoperabilidad y la portabilidad.'),
+      option('d', 'Porque garantiza por sí sola que no exista poder de mercado.'),
+      option('e', 'Porque se limita al diseño físico de antenas y cableado.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-1',
+    2,
+    'concepto_base',
+    '¿Qué es una DLT según el documento?',
+    'a',
+    [
+      option('a', 'Un registro compartido entre varios participantes, sincronizado y auditable.'),
+      option('b', 'Una moneda digital emitida por cualquier plataforma.'),
+      option('c', 'Un contrato legal que se ejecuta sin software.'),
+      option('d', 'Una red telefónica cerrada que no registra eventos.'),
+      option('e', 'Un servicio exclusivo de publicidad digital.')
     ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t1-6',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Qué mostró el caso Uber-Cornershop en México?',
-    difficulty: 'intermedio',
-    question: '¿Qué mostró el caso Uber-Cornershop en México?',
-    options: [
-      { id: 'a', text: 'Que no existe competencia en mercados de telecomunicaciones.' },
-      { id: 'b', text: 'Que las plataformas no pueden ser analizadas como mercados multilaterales.' },
-      { id: 'c', text: 'Que hay fricciones para definir qué autoridad debe analizar integraciones tecnológicas complejas.' },
-      { id: 'd', text: 'Que las plataformas están fuera de cualquier revisión regulatoria.' },
-      { id: 'e', text: 'Que la neutralidad de la red ya resuelve toda la competencia digital.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t2-2',
+    2,
+    'diferenciacion',
+    '¿Qué diferencia básica destaca el documento entre blockchain y criptomoneda?',
+    'd',
+    [
+      option('a', 'No existe ninguna diferencia técnica ni económica entre ambas.'),
+      option('b', 'La criptomoneda es una red de telecomunicaciones y blockchain es un contrato bancario.'),
+      option('c', 'Blockchain solo sirve para especular y la criptomoneda para identidad digital.'),
+      option('d', 'Blockchain es una infraestructura de registro y coordinación; no es sinónimo automático de criptoactivo.'),
+      option('e', 'La criptomoneda siempre está permitida al público si usa blockchain.')
     ],
-    correctAnswer: 'c'
-  },
-  {
-    id: 'mcq-t1-7',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'regulacion',
-    prompt: '¿Por qué la neutralidad de la red es necesaria pero no suficiente?',
-    difficulty: 'intermedio',
-    question: '¿Por qué la neutralidad de la red es necesaria pero no suficiente?',
-    options: [
-      { id: 'a', text: 'Porque solo atiende la capa física y las plataformas pueden cerrar la capa lógica.' },
-      { id: 'b', text: 'Porque solo se aplica a redes satelitales.' },
-      { id: 'c', text: 'Porque obliga a usar un solo sistema operativo.' },
-      { id: 'd', text: 'Porque elimina las fusiones entre plataformas.' },
-      { id: 'e', text: 'Porque prohíbe la portabilidad de datos.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t2-3',
+    2,
+    'caso_de_uso',
+    '¿Cuándo tiende a tener más sentido económico usar DLT en telecomunicaciones?',
+    'b',
+    [
+      option('a', 'Cuando un solo actor controla todo el proceso y una base de datos simple basta.'),
+      option('b', 'Cuando intervienen muchos actores, hay conciliaciones tardías y existen disputas sobre eventos verificables.'),
+      option('c', 'Cuando el objetivo principal es emitir un criptoactivo para cualquier consumidor.'),
+      option('d', 'Cuando se busca evitar toda supervisión regulatoria.'),
+      option('e', 'Cuando la latencia del sistema no importa en absoluto.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-4',
+    2,
+    'gobernanza',
+    '¿Por qué la literatura de telecomunicaciones suele preferir redes permisionadas o de consorcio?',
+    'c',
+    [
+      option('a', 'Porque eliminan por completo el riesgo de concentración.'),
+      option('b', 'Porque hacen innecesaria la confidencialidad y el control de acceso.'),
+      option('c', 'Porque ofrecen gobernanza más previsible, control de acceso y mejor encaje con obligaciones regulatorias.'),
+      option('d', 'Porque vuelven irrelevante la interoperabilidad entre redes.'),
+      option('e', 'Porque sustituyen a cualquier base de datos centralizada sin costo.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-5',
+    2,
+    'contratos',
+    '¿Qué límite concentran los contratos inteligentes en este tema?',
+    'b',
+    [
+      option('a', 'Que solo pueden ejecutarse si existe una criptomoneda pública.'),
+      option('b', 'Que dependen de reglas bien codificadas y de datos externos confiables para no ejecutar decisiones equivocadas.'),
+      option('c', 'Que sustituyen al derecho contractual y eliminan la responsabilidad.'),
+      option('d', 'Que no pueden aplicarse a conciliación ni liquidación.'),
+      option('e', 'Que impiden toda auditoría posterior.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-6',
+    2,
+    'oraculos',
+    'Si el oráculo alimenta datos erróneos a un contrato inteligente, ¿qué problema aparece?',
+    'd',
+    [
+      option('a', 'El sistema deja de requerir reglas de responsabilidad.'),
+      option('b', 'La DLT se convierte automáticamente en servicio financiero al público.'),
+      option('c', 'El error desaparece porque la cadena es inmutable.'),
+      option('d', 'El contrato puede ejecutar correctamente una decisión equivocada por mala calidad del dato.'),
+      option('e', 'La red se vuelve pública aunque fuera permisionada.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-7',
+    2,
+    'estandares',
+    '¿Qué aportó la UIT en 2025 al debate sobre blockchain y telecomunicaciones?',
+    'c',
+    [
+      option('a', 'Una autorización global para comercializar criptoactivos en telecom.'),
+      option('b', 'Una prohibición general sobre redes permisionadas.'),
+      option('c', 'La Recomendación ITU-T M.3166.1 sobre requisitos neutrales de protocolo para interfaces de gestión blockchain.'),
+      option('d', 'Una norma que elimina la necesidad de monitorear desempeño y fallas.'),
+      option('e', 'Un estándar para sustituir identidades móviles por contraseñas fijas.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-8',
+    2,
+    'mexico',
+    '¿Qué hizo la Circular 4/2019 del Banco de México respecto de activos virtuales en instituciones reguladas?',
+    'b',
+    [
+      option('a', 'Autorizó a cualquier institución a ofrecer libremente intercambio y custodia al público.'),
+      option('b', 'Permitió operaciones internas con autorización previa y prohibió ofrecer directamente esos servicios a clientes.'),
+      option('c', 'Convirtió a los activos virtuales en moneda de curso legal.'),
+      option('d', 'Eliminó la supervisión prudencial sobre fintech.'),
+      option('e', 'Obligó a todas las telecom a liquidar con tokens.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-9',
+    2,
+    'consumidor',
+    '¿Qué dato de la ENIF 2024 mostró contacto del consumidor mexicano con activos virtuales?',
+    'a',
+    [
+      option('a', 'Que 2.1 % de la población reportó haber comprado o invertido en activos virtuales o criptomonedas.'),
+      option('b', 'Que toda la población con cuenta formal ya invirtió en criptomonedas.'),
+      option('c', 'Que las criptomonedas cuentan con garantía del Gobierno Federal y del Banco de México.'),
+      option('d', 'Que los activos virtuales ya son moneda de curso legal en México.'),
+      option('e', 'Que no existe ninguna advertencia oficial sobre riesgo para usuarios.')
+    ]
+  ),
+  mcq(
+    'mcq-t2-10',
+    2,
+    'datos',
+    '¿Por qué el documento recomienda no subir datos personales completos a la cadena principal?',
+    'd',
+    [
+      option('a', 'Porque los datos personales nunca pueden usarse en procesos de identidad.'),
+      option('b', 'Porque la cadena bloquea toda forma de auditoría.'),
+      option('c', 'Porque fuera de la cadena desaparece cualquier obligación de seguridad.'),
+      option('d', 'Porque la inmutabilidad puede chocar con derechos de rectificación, supresión y minimización.'),
+      option('e', 'Porque la legislación exige mantener toda identidad en papel.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-1',
+    3,
+    'concepto_base',
+    '¿Por qué el teléfono móvil se volvió el centro de la convergencia fintech-telecom?',
+    'a',
+    [
+      option('a', 'Porque reúne autenticación, pagos, datos de comportamiento e interacción cotidiana en un solo punto.'),
+      option('b', 'Porque sustituyó completamente a cualquier infraestructura de pagos.'),
+      option('c', 'Porque eliminó la necesidad de regulación financiera.'),
+      option('d', 'Porque convirtió a toda telecom en banco.'),
+      option('e', 'Porque ya no se usa para comunicarse.')
     ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t1-8',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'aplicacion',
-    prompt: '¿Qué buscan la interoperabilidad y la portabilidad en este tema?',
-    difficulty: 'intermedio',
-    question: '¿Qué buscan la interoperabilidad y la portabilidad en este tema?',
-    options: [
-      { id: 'a', text: 'Aumentar artificialmente los costos de salida del usuario.' },
-      { id: 'b', text: 'Reducir costos de cambio y abrir el ecosistema a la competencia.' },
-      { id: 'c', text: 'Sustituir toda la regulación por decisiones privadas.' },
-      { id: 'd', text: 'Bloquear el tráfico de servicios pequeños.' },
-      { id: 'e', text: 'Eliminar la función de los concesionarios de red.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t3-2',
+    3,
+    'evolucion',
+    '¿Con qué soluciones se expresó primero esta convergencia?',
+    'b',
+    [
+      option('a', 'Con buscadores generales y redes sociales.'),
+      option('b', 'Con dinero móvil y carteras digitales.'),
+      option('c', 'Con espectro satelital y televisión abierta.'),
+      option('d', 'Con contratos inteligentes para roaming.'),
+      option('e', 'Con sistemas de alojamiento temporal.')
     ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t1-9',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'comparacion',
-    prompt: '¿Qué rasgo comparten los marcos recientes de la Unión Europea y el Reino Unido?',
-    difficulty: 'intermedio',
-    question: '¿Qué rasgo comparten los marcos recientes de la Unión Europea y el Reino Unido?',
-    options: [
-      { id: 'a', text: 'Se basan solo en sanciones ex post y renuncian a obligaciones preventivas.' },
-      { id: 'b', text: 'Buscan imponer obligaciones ex ante a plataformas con gran poder de acceso.' },
-      { id: 'c', text: 'Eliminan toda revisión de interoperabilidad.' },
-      { id: 'd', text: 'Trasladan el control al sector bancario.' },
-      { id: 'e', text: 'Prohíben el análisis de mercados digitales en competencia.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t3-3',
+    3,
+    'open_finance',
+    '¿Qué diferencia hay entre open banking y open finance en este tema?',
+    'c',
+    [
+      option('a', 'Open finance se limita a cuentas bancarias y open banking incluye otros datos.'),
+      option('b', 'No existe diferencia funcional entre ambos conceptos.'),
+      option('c', 'Open banking se concentra más en datos bancarios; open finance amplía el perímetro hacia otros productos y actores.'),
+      option('d', 'Open finance excluye cualquier uso de API.'),
+      option('e', 'Open banking solo aplica a telecomunicaciones.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-4',
+    3,
+    'api',
+    '¿Qué exige el artículo 76 de la Ley Fintech en materia de datos financieros?',
+    'b',
+    [
+      option('a', 'Eliminar todo intercambio de datos entre participantes.'),
+      option('b', 'Establecer interfaces estandarizadas para compartir datos bajo interoperabilidad, seguridad y consentimiento.'),
+      option('c', 'Reservar las API solo para bancos extranjeros.'),
+      option('d', 'Usar el número celular como sustituto de toda cuenta bancaria.'),
+      option('e', 'Prohibir que las fintech accedan a información abierta.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-5',
+    3,
+    'infraestructura',
+    '¿Qué es un riel de pago en la lógica del documento?',
+    'd',
+    [
+      option('a', 'Una campaña comercial para vender servicios móviles.'),
+      option('b', 'Un contrato privado entre dos carteras digitales.'),
+      option('c', 'Un sistema de lealtad basado en puntos promocionales.'),
+      option('d', 'La infraestructura que mueve dinero con rapidez, bajo costo y certeza operativa.'),
+      option('e', 'Un registro contable sin posibilidad de liquidación.')
     ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t1-10',
-    themeId: 1,
-    activity: 'mcq',
-    subtype: 'alcance',
-    prompt: 'Según el módulo, ¿qué activo ayuda a las plataformas a concentrar poder además del tráfico?',
-    difficulty: 'intermedio',
-    question: 'Según el módulo, ¿qué activo ayuda a las plataformas a concentrar poder además del tráfico?',
-    options: [
-      { id: 'a', text: 'La captura de datos y el control de la atención.' },
-      { id: 'b', text: 'La producción agrícola estacional.' },
-      { id: 'c', text: 'La desaparición total de los efectos de red.' },
-      { id: 'd', text: 'El cierre de todos los mercados multilaterales.' },
-      { id: 'e', text: 'La prohibición de cualquier interfaz móvil.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t3-6',
+    3,
+    'comparado',
+    '¿Qué combinación favorece, según la evidencia internacional, la adopción de pagos rápidos en mercados convergentes?',
+    'a',
+    [
+      option('a', 'Participación pública activa, acceso de actores no bancarios y más casos de uso interoperables.'),
+      option('b', 'Cerrar el sistema a cualquier participante no bancario.'),
+      option('c', 'Mantener comisiones altas para desincentivar el uso masivo.'),
+      option('d', 'Separar por completo telecomunicaciones y pagos en la operación cotidiana.'),
+      option('e', 'Eliminar toda responsabilidad frente a fraude.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-7',
+    3,
+    'singapur',
+    '¿Qué muestra el caso de Singapur citado en el documento?',
+    'e',
+    [
+      option('a', 'Que la convergencia funciona mejor si solo participan bancos tradicionales.'),
+      option('b', 'Que los fraudes de phishing deben recaer solo en el usuario final.'),
+      option('c', 'Que los rieles rápidos no requieren reglas de licenciamiento claras.'),
+      option('d', 'Que las telecomunicaciones no tienen relación con la confianza en pagos.'),
+      option('e', 'Que puede haber acceso directo de no bancos a FAST y PayNow, además de responsabilidades compartidas contra fraude entre finanzas y telecom.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-8',
+    3,
+    'mexico',
+    '¿Qué relación correcta existe entre SPEI y CoDi según el documento?',
+    'b',
+    [
+      option('a', 'CoDi reemplazó al SPEI como sistema de liquidación interbancaria.'),
+      option('b', 'SPEI es el riel de liquidación y CoDi funciona como capa de cobro y pago sobre esa infraestructura.'),
+      option('c', 'CoDi opera solo fuera del sistema del Banco de México.'),
+      option('d', 'Ambos son mecanismos exclusivos para pagos internacionales.'),
+      option('e', 'SPEI y CoDi dejaron de vincularse con dispositivos móviles.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-9',
+    3,
+    'dimo',
+    '¿Qué informó Banxico sobre Dimo en diciembre de 2024?',
+    'c',
+    [
+      option('a', 'Que Dimo ya había sustituido por completo a todas las transferencias SPEI.'),
+      option('b', 'Que solo una institución financiera seguía en el esquema.'),
+      option('c', 'Que existían 21 instituciones financieras participantes y más de 11 millones de cuentas vinculadas.'),
+      option('d', 'Que Dimo dejó de usar el número celular como identificador operativo.'),
+      option('e', 'Que Dimo era ya el único medio autorizado para pagos de gobierno.')
+    ]
+  ),
+  mcq(
+    'mcq-t3-10',
+    3,
+    'consumidor',
+    '¿Qué dato de la ENIF 2024 muestra el desplazamiento de la relación financiera hacia el móvil?',
+    'd',
+    [
+      option('a', 'La desaparición de las cuentas de ahorro formal.'),
+      option('b', 'Que toda la población adulta usa pagos digitales diariamente.'),
+      option('c', 'Que la banca móvil dejó de crecer entre 2021 y 2024.'),
+      option('d', 'Que el uso de la app del celular para consultar o mover recursos pasó de 54.3 % a 69.1 % entre personas con cuenta de ahorro formal.'),
+      option('e', 'Que el número celular ya sustituyó cualquier mecanismo de autenticación.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-1',
+    4,
+    'concepto_base',
+    '¿Qué sostiene el documento sobre la llamada economía colaborativa en su forma dominante?',
+    'b',
+    [
+      option('a', 'Que siempre es un espacio neutral de cooperación entre particulares.'),
+      option('b', 'Que opera mediante plataformas con fines de lucro que organizan mercados, reglas y acceso.'),
+      option('c', 'Que solo existe en actividades turísticas sin relación laboral.'),
+      option('d', 'Que elimina toda asimetría entre empresas y personas usuarias.'),
+      option('e', 'Que ya no requiere regulación por funcionar en internet.')
     ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t2-1',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué combina la criptoeconomía según el módulo?',
-    difficulty: 'facil',
-    question: '¿Qué combina la criptoeconomía según el módulo?',
-    options: [
-      { id: 'a', text: 'Criptografía, incentivos, diseño de mecanismos y tecnologías de registro distribuido.' },
-      { id: 'b', text: 'Solo minería de criptomonedas y publicidad digital.' },
-      { id: 'c', text: 'Únicamente banca tradicional y telefonía fija.' },
-      { id: 'd', text: 'Exclusivamente redes sociales y comercio minorista.' },
-      { id: 'e', text: 'Nada más archivos en la nube sin validación.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t4-2',
+    4,
+    'gestion',
+    '¿Qué incluye la gestión algorítmica del trabajo?',
+    'a',
+    [
+      option('a', 'Asignación de tareas, monitoreo, reputación, precios dinámicos y sanciones.'),
+      option('b', 'Solo la contratación inicial de una persona trabajadora.'),
+      option('c', 'Únicamente la revisión manual de vacaciones.'),
+      option('d', 'La eliminación total de datos de desempeño.'),
+      option('e', 'Solo la promoción comercial de la aplicación.')
     ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t2-2',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'diferenciacion',
-    prompt: '¿Qué diferencia marca el módulo entre DLT y blockchain?',
-    difficulty: 'intermedio',
-    question: '¿Qué diferencia marca el módulo entre DLT y blockchain?',
-    options: [
-      { id: 'a', text: 'No existe diferencia: ambos términos siempre significan exactamente lo mismo.' },
-      { id: 'b', text: 'Toda DLT es pública y toda blockchain es privada.' },
-      { id: 'c', text: 'DLT es una categoría amplia y blockchain es una de sus arquitecturas posibles.' },
-      { id: 'd', text: 'Blockchain es un sistema bancario y DLT es un buscador.' },
-      { id: 'e', text: 'DLT solo aplica a videojuegos y blockchain solo a impuestos.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t4-3',
+    4,
+    'subordinacion',
+    '¿Por qué la flexibilidad horaria no basta para descartar una relación laboral en plataformas?',
+    'c',
+    [
+      option('a', 'Porque toda persona conectada se vuelve empleadora.'),
+      option('b', 'Porque la flexibilidad solo importa en alojamiento temporal.'),
+      option('c', 'Porque lo decisivo es quién controla precios, tareas, sanciones, métricas y permanencia.'),
+      option('d', 'Porque la ley exige un horario fijo para cualquier aplicación.'),
+      option('e', 'Porque el algoritmo nunca interviene en la prestación.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-4',
+    4,
+    'comparado',
+    '¿Qué incorporó la Directiva europea sobre trabajo en plataformas?',
+    'b',
+    [
+      option('a', 'La prohibición general de cualquier aplicación de reparto o transporte.'),
+      option('b', 'Una presunción rebatible de relación laboral y reglas sobre gestión algorítmica e información.'),
+      option('c', 'La desaparición de toda revisión humana de decisiones automatizadas.'),
+      option('d', 'Un régimen exclusivo para hoteles tradicionales.'),
+      option('e', 'La eliminación de obligaciones en materia de datos personales.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-5',
+    4,
+    'alojamiento',
+    '¿Qué busca el Reglamento 2024/1028 en materia de alquileres de corta estancia?',
+    'd',
+    [
+      option('a', 'Prohibir cualquier forma de alojamiento temporal intermediado por plataformas.'),
+      option('b', 'Sustituir la regulación laboral por normas turísticas.'),
+      option('c', 'Eliminar la obligación de compartir datos con autoridades públicas.'),
+      option('d', 'Ordenar recolección e intercambio de datos para gobernar mejor el impacto del alojamiento temporal.'),
+      option('e', 'Limitar el uso de medios de pago digitales en turismo.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-6',
+    4,
+    'escala',
+    '¿Qué dato muestra que estas plataformas ya operan a gran escala internacional?',
+    'e',
+    [
+      option('a', 'Que solo funcionan en nichos locales muy pequeños.'),
+      option('b', 'Que dejaron de crecer en 2025.'),
+      option('c', 'Que la mayor parte de sus operaciones sigue siendo experimental.'),
+      option('d', 'Que no tienen impacto en turismo, movilidad ni empleo.'),
+      option('e', 'Que Uber reportó 202 millones de consumidores activos mensuales y Airbnb más de 9 millones de anuncios activos al cierre de 2025.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-7',
+    4,
+    'mexico',
+    '¿Qué reconoció la reforma mexicana publicada el 24 de diciembre de 2024?',
+    'a',
+    [
+      option('a', 'Que puede existir subordinación ejercida mediante tecnologías de la información y que las plataformas deben transparentar su gestión algorítmica.'),
+      option('b', 'Que las plataformas quedaron fuera de cualquier obligación laboral.'),
+      option('c', 'Que la seguridad social ya no aplica al trabajo en plataformas.'),
+      option('d', 'Que solo los gobiernos locales pueden revisar estas relaciones.'),
+      option('e', 'Que la plataforma es siempre un intermediario neutral.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-8',
+    4,
+    'imss',
+    '¿Qué muestra la implementación mexicana de 2025 en materia de seguridad social para plataformas?',
+    'c',
+    [
+      option('a', 'Que el IMSS cerró el tema sin prueba piloto ni seguimiento.'),
+      option('b', 'Que la prueba piloto inició en 2024 y terminó sin datos públicos.'),
+      option('c', 'Que la prueba piloto inició el 1 de julio de 2025 y al cuarto mes el IMSS reportó 1,114,147 personas beneficiadas.'),
+      option('d', 'Que solo se permitió la afiliación de plataformas de alojamiento.'),
+      option('e', 'Que la incorporación al seguro social quedó prohibida para repartidores y conductores.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-9',
+    4,
+    'consumidor',
+    '¿Por qué las herramientas de PROFECO no bastan por sí solas para regular este ecosistema?',
+    'd',
+    [
+      option('a', 'Porque solo pueden aplicarse a compras en efectivo.'),
+      option('b', 'Porque eliminan toda necesidad de transparencia algorítmica.'),
+      option('c', 'Porque sustituyen la política laboral y urbana de forma automática.'),
+      option('d', 'Porque ayudan en información y conciliación, pero no reemplazan una política específica para plataformas de transporte, reparto o alojamiento.'),
+      option('e', 'Porque están prohibidas en comercio digital.')
+    ]
+  ),
+  mcq(
+    'mcq-t4-10',
+    4,
+    'alcance',
+    '¿Debe regularse igual una plataforma de reparto que una de alojamiento?',
+    'b',
+    [
+      option('a', 'Sí, porque producen exactamente los mismos daños y usan idénticos incentivos.'),
+      option('b', 'No, porque comparten problemas de intermediación y datos, pero no afectan igual trabajo, vivienda y territorio.'),
+      option('c', 'Sí, porque toda plataforma digital queda dentro del mismo riesgo laboral.'),
+      option('d', 'No, porque las plataformas de alojamiento no usan datos ni reputación.'),
+      option('e', 'Sí, porque la regulación comparada exige una sola receta para todos los modelos.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-1',
+    5,
+    'concepto_base',
+    '¿Por qué el precio no basta para medir poder de mercado en plataformas digitales?',
+    'a',
+    [
+      option('a', 'Porque una plataforma puede cobrar cero a un lado del mercado y aun así capturar rentas por datos, publicidad o comisiones.'),
+      option('b', 'Porque en mercados digitales ya no existen efectos de red.'),
+      option('c', 'Porque el precio siempre sube de inmediato cuando hay concentración.'),
+      option('d', 'Porque las plataformas no monetizan datos ni atención.'),
+      option('e', 'Porque la competencia digital solo ocurre en mercados físicos.')
     ],
-    correctAnswer: 'c'
-  },
-  {
-    id: 'mcq-t2-3',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'aplicacion',
-    prompt: '¿Para qué sirven los contratos inteligentes en telecomunicaciones?',
-    difficulty: 'intermedio',
-    question: '¿Para qué sirven los contratos inteligentes en telecomunicaciones?',
-    options: [
-      { id: 'a', text: 'Para reemplazar toda la regulación financiera por completo.' },
-      { id: 'b', text: 'Para ejecutar reglas programadas en procesos como liquidación o itinerancia cuando se cumplen condiciones.' },
-      { id: 'c', text: 'Para eliminar la necesidad de auditar sistemas.' },
-      { id: 'd', text: 'Para volver irrelevante la identidad digital.' },
-      { id: 'e', text: 'Para impedir el uso de nodos en una red.' }
+    'facil'
+  ),
+  mcq(
+    'mcq-t5-2',
+    5,
+    'conducta',
+    '¿Qué es la autopreferencia?',
+    'c',
+    [
+      option('a', 'La obligación de abrir datos a cualquier competidor sin reglas.'),
+      option('b', 'La neutralidad técnica de una plataforma frente a todos sus servicios.'),
+      option('c', 'La práctica de favorecer servicios, productos o resultados propios dentro del ecosistema que la plataforma controla.'),
+      option('d', 'La portabilidad completa de datos de un usuario a otro proveedor.'),
+      option('e', 'La eliminación del uso de algoritmos en recomendaciones.')
     ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t2-4',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'estado_del_arte',
-    prompt: '¿Por qué la literatura del módulo privilegia redes permisionadas o de consorcio?',
-    difficulty: 'intermedio',
-    question: '¿Por qué la literatura del módulo privilegia redes permisionadas o de consorcio?',
-    options: [
-      { id: 'a', text: 'Porque facilitan control de acceso, gobernanza auditable y cumplimiento normativo.' },
-      { id: 'b', text: 'Porque eliminan todo riesgo de concentración.' },
-      { id: 'c', text: 'Porque permiten ignorar la jurisdicción aplicable.' },
-      { id: 'd', text: 'Porque hacen inútiles los estándares abiertos.' },
-      { id: 'e', text: 'Porque sustituyen por completo a cualquier base de datos.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t2-5',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'riesgo',
-    prompt: '¿Cuál es un riesgo económico de las redes permisionadas?',
-    difficulty: 'intermedio',
-    question: '¿Cuál es un riesgo económico de las redes permisionadas?',
-    options: [
-      { id: 'a', text: 'Que vuelven imposible toda auditoría.' },
-      { id: 'b', text: 'Que pueden formar consorcios privados excluyentes si no hay interoperabilidad.' },
-      { id: 'c', text: 'Que obligan a usar dinero en efectivo.' },
-      { id: 'd', text: 'Que hacen desaparecer la protección de datos.' },
-      { id: 'e', text: 'Que impiden el uso de contratos entre operadores.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t2-6',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Qué efecto tuvo la Circular 4/2019 del Banco de México en este campo?',
-    difficulty: 'intermedio',
-    question: '¿Qué efecto tuvo la Circular 4/2019 del Banco de México en este campo?',
-    options: [
-      { id: 'a', text: 'Autorizó libremente cualquier activo virtual para usuarios finales.' },
-      { id: 'b', text: 'Impuso un régimen prudencial que evita trasladar al usuario final el riesgo de activos virtuales.' },
-      { id: 'c', text: 'Eliminó la supervisión financiera sobre fintech.' },
-      { id: 'd', text: 'Prohibió toda adopción técnica de DLT en telecomunicaciones.' },
-      { id: 'e', text: 'Sustituyó al IFT como autoridad sectorial.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t2-7',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'cumplimiento',
-    prompt: '¿Qué significa el principio de territorialidad en PLD mencionado en el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué significa el principio de territorialidad en PLD mencionado en el módulo?',
-    options: [
-      { id: 'a', text: 'Que no importa dónde se ofrezca el servicio si la red es descentralizada.' },
-      { id: 'b', text: 'Que las obligaciones antilavado aplican si el servicio se comercializa a residentes mexicanos, aunque la infraestructura esté fuera.' },
-      { id: 'c', text: 'Que solo las empresas con oficinas físicas deben cumplir.' },
-      { id: 'd', text: 'Que la descentralización excluye toda jurisdicción nacional.' },
-      { id: 'e', text: 'Que el cumplimiento corresponde solo a proveedores extranjeros.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t2-8',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'proteccion_de_datos',
-    prompt: '¿Por qué el módulo recomienda tratar datos sensibles fuera de la cadena principal?',
-    difficulty: 'intermedio',
-    question: '¿Por qué el módulo recomienda tratar datos sensibles fuera de la cadena principal?',
-    options: [
-      { id: 'a', text: 'Porque la inmutabilidad puede chocar con derechos de cancelación, rectificación u oposición.' },
-      { id: 'b', text: 'Porque fuera de la cadena no existen riesgos de seguridad.' },
-      { id: 'c', text: 'Porque así desaparece toda necesidad de verificación.' },
-      { id: 'd', text: 'Porque la ley exige usar papel para la identidad digital.' },
-      { id: 'e', text: 'Porque toda blockchain pública queda prohibida por definición.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t2-9',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'uso_sectorial',
-    prompt: '¿Cuál es un uso sectorial de DLT citado en el módulo?',
-    difficulty: 'facil',
-    question: '¿Cuál es un uso sectorial de DLT citado en el módulo?',
-    options: [
-      { id: 'a', text: 'Liquidación entre operadores y administración de itinerancia.' },
-      { id: 'b', text: 'Producción de espectáculos deportivos.' },
-      { id: 'c', text: 'Venta de boletos de cine sin internet.' },
-      { id: 'd', text: 'Sustitución total del espectro radioeléctrico.' },
-      { id: 'e', text: 'Eliminación de toda base de datos de facturación.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t2-10',
-    themeId: 2,
-    activity: 'mcq',
-    subtype: 'evaluacion',
-    prompt: '¿Qué debe demostrar una red DLT para tener sentido económico en telecomunicaciones?',
-    difficulty: 'intermedio',
-    question: '¿Qué debe demostrar una red DLT para tener sentido económico en telecomunicaciones?',
-    options: [
-      { id: 'a', text: 'Solo novedad tecnológica y publicidad suficiente.' },
-      { id: 'b', text: 'Una reducción neta en latencia, fraude o costo de conciliación frente a alternativas simples.' },
-      { id: 'c', text: 'Que emite un activo virtual para cualquier usuario minorista.' },
-      { id: 'd', text: 'Que elimina la necesidad de definir responsabilidad civil.' },
-      { id: 'e', text: 'Que impide toda intervención regulatoria.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t3-1',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué significa la convergencia entre fintech y telecomunicaciones en el módulo?',
-    difficulty: 'facil',
-    question: '¿Qué significa la convergencia entre fintech y telecomunicaciones en el módulo?',
-    options: [
-      { id: 'a', text: 'Que el teléfono móvil se vuelve una interfaz de acceso financiero, autenticación y datos.' },
-      { id: 'b', text: 'Que la banca deja de usar cualquier infraestructura digital.' },
-      { id: 'c', text: 'Que solo importan las sucursales físicas.' },
-      { id: 'd', text: 'Que desaparece toda autoridad financiera.' },
-      { id: 'e', text: 'Que la conectividad ya no influye en los pagos.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-2',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'evolucion',
-    prompt: '¿Con qué soluciones se materializó la primera fase de esta convergencia?',
-    difficulty: 'facil',
-    question: '¿Con qué soluciones se materializó la primera fase de esta convergencia?',
-    options: [
-      { id: 'a', text: 'Con dinero móvil y carteras digitales.' },
-      { id: 'b', text: 'Con satélites meteorológicos.' },
-      { id: 'c', text: 'Con impresos notariales.' },
-      { id: 'd', text: 'Con servicios de televisión abierta exclusivamente.' },
-      { id: 'e', text: 'Con tarjetas sin interfaz móvil.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-3',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué permite una API en el contexto de finanzas abiertas?',
-    difficulty: 'facil',
-    question: '¿Qué permite una API en el contexto de finanzas abiertas?',
-    options: [
-      { id: 'a', text: 'Intercambiar datos y funciones entre sistemas con reglas técnicas definidas.' },
-      { id: 'b', text: 'Eliminar toda autenticación del usuario.' },
-      { id: 'c', text: 'Bloquear cualquier integración con terceros.' },
-      { id: 'd', text: 'Sustituir al banco central.' },
-      { id: 'e', text: 'Cobrar por cada clic dentro de una app.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-4',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Qué relación correcta existe entre SPEI y CoDi según el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué relación correcta existe entre SPEI y CoDi según el módulo?',
-    options: [
-      { id: 'a', text: 'CoDi reemplaza al SPEI y elimina la liquidación interbancaria.' },
-      { id: 'b', text: 'SPEI es el riel de liquidación y CoDi funciona como capa de pagos móviles sobre esa infraestructura.' },
-      { id: 'c', text: 'Ambos son servicios privados sin participación del Banco de México.' },
-      { id: 'd', text: 'CoDi solo sirve para telefonía fija.' },
-      { id: 'e', text: 'SPEI solo se usa para comercio exterior en papel.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t3-5',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'obstaculo',
-    prompt: '¿Cuál es un obstáculo señalado para las finanzas abiertas en México?',
-    difficulty: 'intermedio',
-    question: '¿Cuál es un obstáculo señalado para las finanzas abiertas en México?',
-    options: [
-      { id: 'a', text: 'Que ya no existen instituciones financieras dominantes.' },
-      { id: 'b', text: 'Que las integraciones pueden retrasarse o degradarse aunque la obligación exista en la norma.' },
-      { id: 'c', text: 'Que las API no pueden medir tiempos de respuesta.' },
-      { id: 'd', text: 'Que la interoperabilidad solo aplica a telecomunicaciones fijas.' },
-      { id: 'e', text: 'Que los usuarios no usan dispositivos móviles.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t3-6',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'competencia',
-    prompt: '¿Por qué la interoperabilidad funciona como herramienta antimonopolio en este tema?',
-    difficulty: 'intermedio',
-    question: '¿Por qué la interoperabilidad funciona como herramienta antimonopolio en este tema?',
-    options: [
-      { id: 'a', text: 'Porque obliga a que todos cobren exactamente lo mismo.' },
-      { id: 'b', text: 'Porque reduce cierres de ecosistema y limita la negativa de trato disfrazada de problemas técnicos.' },
-      { id: 'c', text: 'Porque reemplaza la necesidad de supervisar sesgos.' },
-      { id: 'd', text: 'Porque vuelve innecesarios los datos abiertos.' },
-      { id: 'e', text: 'Porque elimina los rieles de pago públicos.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t3-7',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'riesgo',
-    prompt: '¿Qué riesgo puede surgir al usar datos alternativos de telecomunicaciones para evaluar crédito?',
-    difficulty: 'intermedio',
-    question: '¿Qué riesgo puede surgir al usar datos alternativos de telecomunicaciones para evaluar crédito?',
-    options: [
-      { id: 'a', text: 'Sesgos algorítmicos y decisiones poco explicables para el usuario.' },
-      { id: 'b', text: 'Desaparición automática de toda cartera digital.' },
-      { id: 'c', text: 'Prohibición inmediata de las API bancarias.' },
-      { id: 'd', text: 'Cierre total del SPEI.' },
-      { id: 'e', text: 'Eliminación del consentimiento del usuario por mandato legal.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-8',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'neutralidad',
-    prompt: '¿Qué vigila la idea de neutralidad transaccional?',
-    difficulty: 'intermedio',
-    question: '¿Qué vigila la idea de neutralidad transaccional?',
-    options: [
-      { id: 'a', text: 'Que operadores o plataformas no favorezcan indebidamente sus propias carteras o pagos mediante bloqueo o estrangulamiento.' },
-      { id: 'b', text: 'Que toda persona use una sola aplicación bancaria.' },
-      { id: 'c', text: 'Que solo los bancos tradicionales usen QR.' },
-      { id: 'd', text: 'Que se cobre doble comisión en pagos rápidos.' },
-      { id: 'e', text: 'Que la latencia sea irrelevante para la competencia.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-9',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'institucional',
-    prompt: '¿Qué muestra la fragmentación institucional descrita en el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué muestra la fragmentación institucional descrita en el módulo?',
-    options: [
-      { id: 'a', text: 'Que un fallo en una cartera digital puede tocar al mismo tiempo red, pagos y datos personales.' },
-      { id: 'b', text: 'Que las telecomunicaciones no se relacionan con servicios financieros.' },
-      { id: 'c', text: 'Que la CONDUSEF regula el espectro radioeléctrico.' },
-      { id: 'd', text: 'Que el Banco de México resuelve por sí solo toda la competencia digital.' },
-      { id: 'e', text: 'Que los usuarios ya no requieren mecanismos de protección.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t3-10',
-    themeId: 3,
-    activity: 'mcq',
-    subtype: 'infraestructura_publica',
-    prompt: '¿Qué advierte el módulo sobre la infraestructura pública de pagos?',
-    difficulty: 'intermedio',
-    question: '¿Qué advierte el módulo sobre la infraestructura pública de pagos?',
-    options: [
-      { id: 'a', text: 'Que basta con existir, aunque la experiencia de usuario sea deficiente.' },
-      { id: 'b', text: 'Que puede subutilizarse si la experiencia de usuario y la integración en comercios son pobres.' },
-      { id: 'c', text: 'Que debe excluir a los desarrolladores privados.' },
-      { id: 'd', text: 'Que impide cualquier competencia en la capa de interfaz.' },
-      { id: 'e', text: 'Que solo sirve para pagos internacionales.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-1',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué sostiene el módulo sobre la economía colaborativa en su expresión dominante?',
-    difficulty: 'facil',
-    question: '¿Qué sostiene el módulo sobre la economía colaborativa en su expresión dominante?',
-    options: [
-      { id: 'a', text: 'Que siempre es un espacio neutral entre oferta y demanda.' },
-      { id: 'b', text: 'Que suele operar mediante plataformas que asignan tareas, recogen datos y fijan reglas privadas.' },
-      { id: 'c', text: 'Que elimina toda asimetría entre empresa y trabajador.' },
-      { id: 'd', text: 'Que solo existe en el sector turístico.' },
-      { id: 'e', text: 'Que no tiene implicaciones laborales.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-2',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'reconocimiento',
-    prompt: '¿Qué incluye la gestión algorítmica del trabajo?',
-    difficulty: 'facil',
-    question: '¿Qué incluye la gestión algorítmica del trabajo?',
-    options: [
-      { id: 'a', text: 'Asignación de tareas, monitoreo, reputación, precios dinámicos y sanciones.' },
-      { id: 'b', text: 'Solo la entrega física de uniformes.' },
-      { id: 'c', text: 'Únicamente campañas impresas de reclutamiento.' },
-      { id: 'd', text: 'La eliminación de todo dato de geolocalización.' },
-      { id: 'e', text: 'El cierre de toda interacción entre usuario y plataforma.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t4-3',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'aplicacion',
-    prompt: '¿Qué costo suele trasladarse a la persona trabajadora en estos modelos?',
-    difficulty: 'facil',
-    question: '¿Qué costo suele trasladarse a la persona trabajadora en estos modelos?',
-    options: [
-      { id: 'a', text: 'Tiempo de espera, conectividad, depreciación del vehículo y exposición a riesgos.' },
-      { id: 'b', text: 'La propiedad intelectual de la app.' },
-      { id: 'c', text: 'La decisión final sobre el algoritmo de búsqueda.' },
-      { id: 'd', text: 'La titularidad de todas las bases de datos corporativas.' },
-      { id: 'e', text: 'La regulación de espectro radioeléctrico.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t4-4',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Qué reconoció la reforma laboral mexicana de 2024 en materia de plataformas?',
-    difficulty: 'intermedio',
-    question: '¿Qué reconoció la reforma laboral mexicana de 2024 en materia de plataformas?',
-    options: [
-      { id: 'a', text: 'Que la subordinación solo existe con supervisión física en oficina.' },
-      { id: 'b', text: 'Que el mando y la supervisión pueden ejercerse mediante tecnologías de la información.' },
-      { id: 'c', text: 'Que toda plataforma queda fuera del derecho laboral.' },
-      { id: 'd', text: 'Que solo el usuario final define las reglas de trabajo.' },
-      { id: 'e', text: 'Que las sanciones automatizadas no deben documentarse.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-5',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'transparencia',
-    prompt: '¿Qué debe detallar una política de gestión algorítmica del trabajo?',
-    difficulty: 'intermedio',
-    question: '¿Qué debe detallar una política de gestión algorítmica del trabajo?',
-    options: [
-      { id: 'a', text: 'Solo el nombre comercial de la aplicación.' },
-      { id: 'b', text: 'Los criterios para asignar viajes, construir tarifas, usar calificaciones y aplicar bloqueos.' },
-      { id: 'c', text: 'Únicamente el color de la interfaz.' },
-      { id: 'd', text: 'Nada sobre la lógica del algoritmo porque siempre es secreto industrial absoluto.' },
-      { id: 'e', text: 'Solo los horarios de atención al cliente.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-6',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'seguridad_social',
-    prompt: '¿Qué busca la prueba piloto obligatoria de 2025 mencionada en el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué busca la prueba piloto obligatoria de 2025 mencionada en el módulo?',
-    options: [
-      { id: 'a', text: 'Eliminar la seguridad social en el trabajo de plataformas.' },
-      { id: 'b', text: 'Combinar flexibilidad horaria con cuotas y aseguramiento para personas trabajadoras de plataforma.' },
-      { id: 'c', text: 'Sustituir al IMSS por las propias aplicaciones.' },
-      { id: 'd', text: 'Quitar toda retención fiscal en la fuente.' },
-      { id: 'e', text: 'Prohibir el uso de geolocalización.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-7',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'debido_proceso',
-    prompt: '¿Qué exige el debido proceso automatizado antes de una desactivación?',
-    difficulty: 'intermedio',
-    question: '¿Qué exige el debido proceso automatizado antes de una desactivación?',
-    options: [
-      { id: 'a', text: 'Notificación fundada, oportunidad de defensa y revisión humana.' },
-      { id: 'b', text: 'Solo un aviso automático sin posibilidad de réplica.' },
-      { id: 'c', text: 'Suspensión inmediata sin explicación.' },
-      { id: 'd', text: 'La renuncia previa a cualquier reclamo.' },
-      { id: 'e', text: 'Que el usuario final decida la sanción.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t4-8',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'no_discriminacion',
-    prompt: '¿Qué debe auditar la autoridad de protección de datos en este tema?',
-    difficulty: 'intermedio',
-    question: '¿Qué debe auditar la autoridad de protección de datos en este tema?',
-    options: [
-      { id: 'a', text: 'Que las métricas de asignación no reproduzcan sesgos por ubicación, género u otros patrones injustificados.' },
-      { id: 'b', text: 'Que los repartidores usen un solo modelo de teléfono.' },
-      { id: 'c', text: 'Que toda evaluación del usuario sea secreta e irrevisable.' },
-      { id: 'd', text: 'Que ninguna plataforma recopile datos de operación.' },
-      { id: 'e', text: 'Que la aplicación funcione sin conexión permanente.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t4-9',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'politica_publica',
-    prompt: '¿Qué equilibrio debe buscar la política pública, según el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué equilibrio debe buscar la política pública, según el módulo?',
-    options: [
-      { id: 'a', text: 'Omitir toda regulación para no afectar la innovación.' },
-      { id: 'b', text: 'Regular con criterio suficiente para evitar precarización sin ahogar la operación legítima.' },
-      { id: 'c', text: 'Sustituir al algoritmo por inspecciones físicas únicamente.' },
-      { id: 'd', text: 'Dejar la protección social a la calificación del usuario.' },
-      { id: 'e', text: 'Eliminar toda flexibilidad horaria por regla general.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t4-10',
-    themeId: 4,
-    activity: 'mcq',
-    subtype: 'alcance',
-    prompt: '¿Por qué la etiqueta de «intermediaria tecnológica» resulta insuficiente?',
-    difficulty: 'intermedio',
-    question: '¿Por qué la etiqueta de «intermediaria tecnológica» resulta insuficiente?',
-    options: [
-      { id: 'a', text: 'Porque la plataforma también diseña el mercado y disciplina el trabajo mediante reglas y datos.' },
-      { id: 'b', text: 'Porque toda app se considera automáticamente banco.' },
-      { id: 'c', text: 'Porque la plataforma no participa en la formación de precios.' },
-      { id: 'd', text: 'Porque solo el consumidor define el acceso al mercado.' },
-      { id: 'e', text: 'Porque el software nunca organiza la oferta y la demanda.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-1',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué rasgo económico distingue a los mercados digitales en el módulo?',
-    difficulty: 'facil',
-    question: '¿Qué rasgo económico distingue a los mercados digitales en el módulo?',
-    options: [
-      { id: 'a', text: 'Costos marginales cercanos a cero, efectos de red y acumulación intensiva de datos.' },
-      { id: 'b', text: 'Ausencia total de datos y de economías de escala.' },
-      { id: 'c', text: 'Solo ventas físicas con poca visibilidad digital.' },
-      { id: 'd', text: 'Imposibilidad de integrar servicios verticalmente.' },
-      { id: 'e', text: 'Mercados que nunca concentran usuarios.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-2',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué es la autopreferencia?',
-    difficulty: 'facil',
-    question: '¿Qué es la autopreferencia?',
-    options: [
-      { id: 'a', text: 'Dar prioridad a servicios propios en motores de búsqueda, tiendas o recomendaciones.' },
-      { id: 'b', text: 'Permitir interoperabilidad obligatoria con terceros.' },
-      { id: 'c', text: 'Reducir tarifas logísticas para cualquier competidor.' },
-      { id: 'd', text: 'Publicar todos los datos del usuario sin consentimiento.' },
-      { id: 'e', text: 'Eliminar el uso de algoritmos en una plataforma.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-3',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'definicion',
-    prompt: '¿Qué describe mejor la colusión algorítmica?',
-    difficulty: 'intermedio',
-    question: '¿Qué describe mejor la colusión algorítmica?',
-    options: [
-      { id: 'a', text: 'El uso de software para coordinar o aprender estrategias de precios que reducen la competencia.' },
-      { id: 'b', text: 'La publicación manual de listas de precios por el Estado.' },
-      { id: 'c', text: 'La existencia de dos o más tiendas físicas en una ciudad.' },
-      { id: 'd', text: 'La portabilidad de contactos entre plataformas.' },
-      { id: 'e', text: 'La revisión humana de una cuenta suspendida.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-4',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'regulacion',
-    prompt: '¿Por qué las sanciones ex post suelen ser insuficientes en estos mercados?',
-    difficulty: 'intermedio',
-    question: '¿Por qué las sanciones ex post suelen ser insuficientes en estos mercados?',
-    options: [
-      { id: 'a', text: 'Porque el daño aparece cuando la arquitectura del ecosistema ya consolidó el poder del actor dominante.' },
-      { id: 'b', text: 'Porque ninguna plataforma puede recibir multas.' },
-      { id: 'c', text: 'Porque solo importa el precio nominal al consumidor.' },
-      { id: 'd', text: 'Porque las ventas atadas no existen en entornos digitales.' },
-      { id: 'e', text: 'Porque la neutralidad de la red elimina todo riesgo de monopolio.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-5',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'caso_mexicano',
-    prompt: '¿Qué identificó la COFECE en el mercado de comercio electrónico minorista?',
-    difficulty: 'intermedio',
-    question: '¿Qué identificó la COFECE en el mercado de comercio electrónico minorista?',
-    options: [
-      { id: 'a', text: 'Que no existen barreras técnicas para conectarse a logística independiente.' },
-      { id: 'b', text: 'Que la visibilidad destacada y ciertos servicios integrados pueden operar como fallas de mercado estructurales.' },
-      { id: 'c', text: 'Que el comercio digital no depende de algoritmos.' },
-      { id: 'd', text: 'Que solo hay un actor relevante en todos los estados.' },
-      { id: 'e', text: 'Que las ventas atadas benefician automáticamente al consumidor.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t5-6',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'publicidad_digital',
-    prompt: '¿Qué problema resalta el módulo en el mercado de publicidad digital?',
-    difficulty: 'intermedio',
-    question: '¿Qué problema resalta el módulo en el mercado de publicidad digital?',
-    options: [
-      { id: 'a', text: 'El control simultáneo de inventario, demanda y subastas opacas puede facilitar exclusión de competidores.' },
-      { id: 'b', text: 'La publicidad digital solo opera con medios impresos.' },
-      { id: 'c', text: 'No hay conflictos de interés cuando una sola empresa controla toda la intermediación.' },
-      { id: 'd', text: 'La opacidad algorítmica mejora por sí sola la competencia.' },
-      { id: 'e', text: 'La demanda publicitaria no usa datos.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-7',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'coordinacion',
-    prompt: '¿Por qué el módulo pide investigaciones conjuntas entre competencia y datos personales?',
-    difficulty: 'intermedio',
-    question: '¿Por qué el módulo pide investigaciones conjuntas entre competencia y datos personales?',
-    options: [
-      { id: 'a', text: 'Porque la acumulación de datos y el poder monopólico se refuerzan mutuamente.' },
-      { id: 'b', text: 'Porque la privacidad elimina los efectos de red.' },
-      { id: 'c', text: 'Porque la protección de datos sustituye al derecho del consumidor.' },
-      { id: 'd', text: 'Porque los datos ya no tienen valor económico.' },
-      { id: 'e', text: 'Porque solo una autoridad puede medir la latencia de una API.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-8',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'remedios_tecnicos',
-    prompt: '¿Para qué sirven las auditorías de API y de latencia en este tema?',
-    difficulty: 'intermedio',
-    question: '¿Para qué sirven las auditorías de API y de latencia en este tema?',
-    options: [
-      { id: 'a', text: 'Para verificar si la interoperabilidad funciona de verdad y detectar degradaciones contra terceros.' },
-      { id: 'b', text: 'Para medir únicamente la velocidad del dispositivo del usuario final.' },
-      { id: 'c', text: 'Para eliminar la obligación de portabilidad.' },
-      { id: 'd', text: 'Para sustituir toda evidencia técnica por declaraciones comerciales.' },
-      { id: 'e', text: 'Para impedir el uso de servicios de mensajería.' }
-    ],
-    correctAnswer: 'a'
-  },
-  {
-    id: 'mcq-t5-9',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'interdependencia',
-    prompt: '¿Qué papel conserva el IFT en la competencia digital según el módulo?',
-    difficulty: 'intermedio',
-    question: '¿Qué papel conserva el IFT en la competencia digital según el módulo?',
-    options: [
-      { id: 'a', text: 'Ninguno, porque la capa lógica ya no depende de la infraestructura física.' },
-      { id: 'b', text: 'Un papel relevante porque la exclusión en software se apoya en la capa física y en la regulación del tráfico.' },
-      { id: 'c', text: 'Solo puede intervenir en servicios postales impresos.' },
-      { id: 'd', text: 'Debe sustituir por completo a la COFECE en toda la economía digital.' },
-      { id: 'e', text: 'Debe dejar sin efectos la neutralidad de la red.' }
-    ],
-    correctAnswer: 'b'
-  },
-  {
-    id: 'mcq-t5-10',
-    themeId: 5,
-    activity: 'mcq',
-    subtype: 'consumidor',
-    prompt: '¿Por qué la protección al consumidor también importa en mercados digitales concentrados?',
-    difficulty: 'intermedio',
-    question: '¿Por qué la protección al consumidor también importa en mercados digitales concentrados?',
-    options: [
-      { id: 'a', text: 'Porque el daño puede aparecer como opacidad, restricciones de elección o trato desigual, no solo como aumento de precio.' },
-      { id: 'b', text: 'Porque el consumidor deja de usar plataformas cuando hay datos.' },
-      { id: 'c', text: 'Porque toda plataforma dominante reduce automáticamente la transparencia.' },
-      { id: 'd', text: 'Porque la defensa del consumidor sustituye toda política de competencia.' },
-      { id: 'e', text: 'Porque el precio es la única variable relevante en entornos digitales.' }
-    ],
-    correctAnswer: 'a'
-  }
+    'facil'
+  ),
+  mcq(
+    'mcq-t5-3',
+    5,
+    'consumo_competencia',
+    '¿Por qué competencia y protección al consumidor están conectadas en mercados digitales?',
+    'b',
+    [
+      option('a', 'Porque la protección al consumidor sustituye cualquier análisis de poder de mercado.'),
+      option('b', 'Porque una interfaz que confunde o manipula al usuario también puede desplazar a rivales más transparentes.'),
+      option('c', 'Porque solo importa la publicidad engañosa y no la estructura del mercado.'),
+      option('d', 'Porque la rivalidad entre empresas elimina cualquier daño individual.'),
+      option('e', 'Porque el tratamiento de datos ya no afecta decisiones de compra.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-4',
+    5,
+    'remedios',
+    '¿Qué tipo de respuesta institucional consideran hoy la OCDE y el DMA para mercados digitales?',
+    'd',
+    [
+      option('a', 'Esperar siempre al daño consumado y después imponer una multa aislada.'),
+      option('b', 'Limitar el análisis a precios visibles para el consumidor final.'),
+      option('c', 'Sustituir la competencia por educación digital voluntaria.'),
+      option('d', 'Combinar obligaciones ex ante, portabilidad, interoperabilidad y reglas conductuales verificables.'),
+      option('e', 'Prohibir cualquier integración entre servicios digitales distintos.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-5',
+    5,
+    'dma',
+    '¿Qué muestra la fase reciente de aplicación del DMA en Europa?',
+    'c',
+    [
+      option('a', 'Que el DMA quedó suspendido antes de designar guardianes de acceso.'),
+      option('b', 'Que la Comisión Europea dejó de exigir reportes de cumplimiento y perfilado.'),
+      option('c', 'Que el debate ya pasó del diseño normativo al seguimiento empírico del cumplimiento y a investigaciones concretas.'),
+      option('d', 'Que el DMA solo atiende precios de boletos y hospedaje temporal.'),
+      option('e', 'Que los guardianes de acceso ya no publican información sobre su operación.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-6',
+    5,
+    'ftc',
+    '¿Qué buscó atender la regla emitida por la FTC en 2024?',
+    'a',
+    [
+      option('a', 'Cobros injustos o engañosos, precios fragmentados y tarifas ocultas.'),
+      option('b', 'La eliminación total de la publicidad digital personalizada.'),
+      option('c', 'La prohibición de toda tienda de aplicaciones en Estados Unidos.'),
+      option('d', 'La sustitución de la política de competencia por conciliación voluntaria.'),
+      option('e', 'La cancelación de cualquier recomendación algorítmica.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-7',
+    5,
+    'cma',
+    '¿Qué compromisos obtuvo la CMA de Apple y Google en febrero de 2026?',
+    'e',
+    [
+      option('a', 'Eliminar toda revisión de aplicaciones por seguridad.'),
+      option('b', 'Cerrar por completo el acceso de desarrolladores externos a sus plataformas.'),
+      option('c', 'Prohibir cualquier forma de interoperabilidad en iOS.'),
+      option('d', 'Cobrar una tarifa única obligatoria a toda app publicada.'),
+      option('e', 'Mejorar la equidad en procesos de publicación de apps y reforzar interoperabilidad en iOS.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-8',
+    5,
+    'mexico',
+    '¿Qué mostró en México el emplazamiento informado por COFECE en 2023 sobre publicidad digital?',
+    'b',
+    [
+      option('a', 'Que la publicidad digital ya no presenta riesgos de opacidad ni exclusión.'),
+      option('b', 'Que la autoridad identificó posibles prácticas anticompetitivas en un mercado donde la intermediación algorítmica puede generar conflictos de interés.'),
+      option('c', 'Que la publicidad digital quedó fuera de cualquier análisis de competencia.'),
+      option('d', 'Que la única preocupación mexicana son las compras en efectivo.'),
+      option('e', 'Que la visibilidad del usuario no depende de plataformas ni subastas.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-9',
+    5,
+    'regulacion',
+    '¿México ya cuenta con una regulación equivalente al DMA europeo?',
+    'd',
+    [
+      option('a', 'Sí, y además aplica obligaciones automáticas a cualquier sitio de comercio electrónico.'),
+      option('b', 'Sí, porque PROFECO ya designa guardianes de acceso.'),
+      option('c', 'Sí, porque la publicidad digital quedó resuelta con una sola norma.'),
+      option('d', 'No, México sigue operando con herramientas valiosas pero fragmentadas en competencia, consumo y datos.'),
+      option('e', 'No, porque renunció por completo a intervenir en mercados digitales.')
+    ]
+  ),
+  mcq(
+    'mcq-t5-10',
+    5,
+    'transparencia',
+    '¿Por qué el documento pide fortalecer obligaciones de transparencia sobre precio total, recomendaciones y cancelación?',
+    'c',
+    [
+      option('a', 'Porque en mercados digitales el usuario no necesita comparar ofertas.'),
+      option('b', 'Porque la transparencia solo sirve para cumplir con formalidades documentales.'),
+      option('c', 'Porque esas variables influyen en la decisión del consumidor y en la posibilidad de competir sin engaño ni manipulación.'),
+      option('d', 'Porque el perfilado algorítmico ya no tiene impacto económico.'),
+      option('e', 'Porque mostrar menos información reduce por definición el daño competitivo.')
+    ]
+  ),
 ];

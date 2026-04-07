@@ -1,254 +1,209 @@
-import type { SwipeItem } from './types';
+import type { Difficulty, SwipeItem, ThemeId } from './types';
+
+function swipe(
+  id: string,
+  themeId: ThemeId,
+  subtype: string,
+  statement: string,
+  correctAnswer: boolean,
+  difficulty: Difficulty = 'intermedio'
+): SwipeItem {
+  return {
+    id,
+    themeId,
+    activity: 'swipe',
+    subtype,
+    prompt: statement,
+    difficulty,
+    statement,
+    correctAnswer
+  };
+}
 
 export const swipeItems: SwipeItem[] = [
-  {
-    id: 'swipe-t1-1',
-    themeId: 1,
-    activity: 'swipe',
-    subtype: 'reconocimiento',
-    prompt: 'Las plataformas OTT pueden influir en la comunicación sin ser dueñas de la red.',
-    difficulty: 'facil',
-    statement: 'Las plataformas OTT pueden influir en la comunicación sin ser dueñas de la red.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t1-2',
-    themeId: 1,
-    activity: 'swipe',
-    subtype: 'regulacion',
-    prompt: 'La neutralidad de la red, por sí sola, ya resuelve el cierre de ecosistemas en la capa lógica.',
-    difficulty: 'intermedio',
-    statement: 'La neutralidad de la red, por sí sola, ya resuelve el cierre de ecosistemas en la capa lógica.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t1-3',
-    themeId: 1,
-    activity: 'swipe',
-    subtype: 'conceptual',
-    prompt: 'Los efectos de red reducen los incentivos a la concentración.',
-    difficulty: 'facil',
-    statement: 'Los efectos de red reducen los incentivos a la concentración.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t1-4',
-    themeId: 1,
-    activity: 'swipe',
-    subtype: 'aplicacion',
-    prompt: 'La interoperabilidad y la portabilidad ayudan a bajar los costos de cambio.',
-    difficulty: 'facil',
-    statement: 'La interoperabilidad y la portabilidad ayudan a bajar los costos de cambio.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t1-5',
-    themeId: 1,
-    activity: 'swipe',
-    subtype: 'caso_mexicano',
-    prompt: 'El «zero rating» nunca afecta la elección del usuario ni la competencia.',
-    difficulty: 'intermedio',
-    statement: 'El «zero rating» nunca afecta la elección del usuario ni la competencia.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t2-1',
-    themeId: 2,
-    activity: 'swipe',
-    subtype: 'definicion',
-    prompt: 'Un contrato inteligente ejecuta reglas cuando se cumplen condiciones verificables.',
-    difficulty: 'facil',
-    statement: 'Un contrato inteligente ejecuta reglas cuando se cumplen condiciones verificables.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t2-2',
-    themeId: 2,
-    activity: 'swipe',
-    subtype: 'diferenciacion',
-    prompt: 'Toda DLT aplicada a telecomunicaciones requiere un criptoactivo público.',
-    difficulty: 'intermedio',
-    statement: 'Toda DLT aplicada a telecomunicaciones requiere un criptoactivo público.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t2-3',
-    themeId: 2,
-    activity: 'swipe',
-    subtype: 'cumplimiento',
-    prompt: 'Si la infraestructura está fuera de México, ya no aplican reglas antilavado a residentes mexicanos.',
-    difficulty: 'intermedio',
-    statement: 'Si la infraestructura está fuera de México, ya no aplican reglas antilavado a residentes mexicanos.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t2-4',
-    themeId: 2,
-    activity: 'swipe',
-    subtype: 'proteccion_de_datos',
-    prompt: 'Los datos sensibles pueden requerir tratamiento fuera de la cadena principal para respetar derechos de datos.',
-    difficulty: 'intermedio',
-    statement: 'Los datos sensibles pueden requerir tratamiento fuera de la cadena principal para respetar derechos de datos.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t2-5',
-    themeId: 2,
-    activity: 'swipe',
-    subtype: 'riesgo',
-    prompt: 'Las redes permisionadas eliminan por completo el riesgo de exclusión de nuevos participantes.',
-    difficulty: 'intermedio',
-    statement: 'Las redes permisionadas eliminan por completo el riesgo de exclusión de nuevos participantes.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t3-1',
-    themeId: 3,
-    activity: 'swipe',
-    subtype: 'definicion',
-    prompt: 'En este módulo, el teléfono móvil puede funcionar como interfaz financiera.',
-    difficulty: 'facil',
-    statement: 'En este módulo, el teléfono móvil puede funcionar como interfaz financiera.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t3-2',
-    themeId: 3,
-    activity: 'swipe',
-    subtype: 'caso_mexicano',
-    prompt: 'CoDi opera sobre la infraestructura del SPEI.',
-    difficulty: 'facil',
-    statement: 'CoDi opera sobre la infraestructura del SPEI.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t3-3',
-    themeId: 3,
-    activity: 'swipe',
-    subtype: 'finanzas_abiertas',
-    prompt: 'Las finanzas abiertas permiten compartir datos sin API y sin reglas de consentimiento.',
-    difficulty: 'intermedio',
-    statement: 'Las finanzas abiertas permiten compartir datos sin API y sin reglas de consentimiento.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t3-4',
-    themeId: 3,
-    activity: 'swipe',
-    subtype: 'competencia',
-    prompt: 'Las instituciones dominantes pueden retrasar integraciones aunque la norma les pida abrir datos.',
-    difficulty: 'intermedio',
-    statement: 'Las instituciones dominantes pueden retrasar integraciones aunque la norma les pida abrir datos.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t3-5',
-    themeId: 3,
-    activity: 'swipe',
-    subtype: 'riesgo',
-    prompt: 'Los datos de telecomunicaciones nunca generan riesgos de sesgo en decisiones crediticias.',
-    difficulty: 'intermedio',
-    statement: 'Los datos de telecomunicaciones nunca generan riesgos de sesgo en decisiones crediticias.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t4-1',
-    themeId: 4,
-    activity: 'swipe',
-    subtype: 'gestion_algoritmica',
-    prompt: 'La gestión algorítmica puede sancionar a una persona trabajadora reduciendo su visibilidad o bloqueando su cuenta.',
-    difficulty: 'facil',
-    statement: 'La gestión algorítmica puede sancionar a una persona trabajadora reduciendo su visibilidad o bloqueando su cuenta.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t4-2',
-    themeId: 4,
-    activity: 'swipe',
-    subtype: 'subordinacion',
-    prompt: 'El trabajo por plataforma siempre excluye cualquier forma de subordinación.',
-    difficulty: 'intermedio',
-    statement: 'El trabajo por plataforma siempre excluye cualquier forma de subordinación.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t4-3',
-    themeId: 4,
-    activity: 'swipe',
-    subtype: 'debido_proceso',
-    prompt: 'El debido proceso automatizado consiste en desactivar sin aviso y revisar después.',
-    difficulty: 'intermedio',
-    statement: 'El debido proceso automatizado consiste en desactivar sin aviso y revisar después.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t4-4',
-    themeId: 4,
-    activity: 'swipe',
-    subtype: 'caso_mexicano',
-    prompt: 'La reforma mexicana de 2024 obliga a registrar una política de gestión algorítmica del trabajo.',
-    difficulty: 'intermedio',
-    statement: 'La reforma mexicana de 2024 obliga a registrar una política de gestión algorítmica del trabajo.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t4-5',
-    themeId: 4,
-    activity: 'swipe',
-    subtype: 'riesgos',
-    prompt: 'En estos modelos, todos los riesgos operativos quedan del lado de la plataforma y no del trabajador.',
-    difficulty: 'facil',
-    statement: 'En estos modelos, todos los riesgos operativos quedan del lado de la plataforma y no del trabajador.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t5-1',
-    themeId: 5,
-    activity: 'swipe',
-    subtype: 'datos',
-    prompt: 'La acumulación de datos puede reforzar el poder sustancial de mercado.',
-    difficulty: 'facil',
-    statement: 'La acumulación de datos puede reforzar el poder sustancial de mercado.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t5-2',
-    themeId: 5,
-    activity: 'swipe',
-    subtype: 'regulacion',
-    prompt: 'Las multas ex post suelen bastar antes de que se consolide un ecosistema digital cerrado.',
-    difficulty: 'intermedio',
-    statement: 'Las multas ex post suelen bastar antes de que se consolide un ecosistema digital cerrado.',
-    correctAnswer: false
-  },
-  {
-    id: 'swipe-t5-3',
-    themeId: 5,
-    activity: 'swipe',
-    subtype: 'ventas_atadas',
-    prompt: 'Una venta atada puede condicionar visibilidad o beneficios al uso de un servicio integrado.',
-    difficulty: 'intermedio',
-    statement: 'Una venta atada puede condicionar visibilidad o beneficios al uso de un servicio integrado.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t5-4',
-    themeId: 5,
-    activity: 'swipe',
-    subtype: 'remedios_tecnicos',
-    prompt: 'Auditar API y latencia ayuda a detectar discriminación técnica contra terceros.',
-    difficulty: 'intermedio',
-    statement: 'Auditar API y latencia ayuda a detectar discriminación técnica contra terceros.',
-    correctAnswer: true
-  },
-  {
-    id: 'swipe-t5-5',
-    themeId: 5,
-    activity: 'swipe',
-    subtype: 'consumidor',
-    prompt: 'El daño al consumidor en mercados digitales solo importa si sube el precio nominal.',
-    difficulty: 'intermedio',
-    statement: 'El daño al consumidor en mercados digitales solo importa si sube el precio nominal.',
-    correctAnswer: false
-  }
+  swipe(
+    'swipe-t1-1',
+    1,
+    'concepto_base',
+    'Una plataforma puede operar como agente determinante en telecomunicaciones aunque no posea red propia.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t1-2',
+    1,
+    'mercado',
+    'Que un servicio sea gratuito para el usuario final elimina, por sí mismo, cualquier poder de mercado.',
+    false,
+    'facil'
+  ),
+  swipe(
+    'swipe-t1-3',
+    1,
+    'remedio',
+    'La interoperabilidad puede bajar costos de cambio y abrir espacio para competir dentro y entre plataformas.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t1-4',
+    1,
+    'mexico',
+    'México ya cuenta con un régimen ex ante plenamente equivalente al europeo y al británico para plataformas digitales.',
+    false
+  ),
+  swipe(
+    'swipe-t1-5',
+    1,
+    'estadistica',
+    'En 2024, 83.1 % de la población mexicana de seis años y más usó internet.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t2-1',
+    2,
+    'caso_de_uso',
+    'La DLT puede tener sentido en telecomunicaciones cuando intervienen muchos actores y existen disputas de conciliación o auditoría.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t2-2',
+    2,
+    'diferenciacion',
+    'Blockchain y criptomoneda son exactamente lo mismo.',
+    false,
+    'facil'
+  ),
+  swipe(
+    'swipe-t2-3',
+    2,
+    'gobernanza',
+    'Las redes permisionadas suelen preferirse en telecomunicaciones por control de acceso y compatibilidad regulatoria.',
+    true
+  ),
+  swipe(
+    'swipe-t2-4',
+    2,
+    'regulacion',
+    'La Circular 4/2019 abrió libremente a clientes del sistema regulado el intercambio y la custodia de criptoactivos.',
+    false
+  ),
+  swipe(
+    'swipe-t2-5',
+    2,
+    'datos',
+    'Subir datos personales completos a la cadena puede chocar con derechos de rectificación o supresión.',
+    true
+  ),
+  swipe(
+    'swipe-t3-1',
+    3,
+    'concepto_base',
+    'En la convergencia fintech-telecom, el teléfono móvil funciona también como interfaz de autenticación, pago y captura de datos.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t3-2',
+    3,
+    'open_finance',
+    'México ya cuenta con un ecosistema de finanzas abiertas plenamente maduro y sin fricciones de implementación.',
+    false
+  ),
+  swipe(
+    'swipe-t3-3',
+    3,
+    'riel_de_pago',
+    'CoDi opera como capa de cobro y pago sobre la infraestructura del SPEI.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t3-4',
+    3,
+    'competencia',
+    'Más inclusión financiera digital garantiza automáticamente más competencia entre plataformas y bancos.',
+    false
+  ),
+  swipe(
+    'swipe-t3-5',
+    3,
+    'mexico',
+    'Dimo convirtió al número celular en un identificador operativo para pagos electrónicos interoperables.',
+    true
+  ),
+  swipe(
+    'swipe-t4-1',
+    4,
+    'trabajo',
+    'La gestión algorítmica puede asignar tareas, medir desempeño y sancionar sin intervención constante de una persona supervisora.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t4-2',
+    4,
+    'subordinacion',
+    'Si una plataforma ofrece flexibilidad horaria, queda descartada cualquier posibilidad de relación laboral.',
+    false
+  ),
+  swipe(
+    'swipe-t4-3',
+    4,
+    'comparado',
+    'La Directiva europea sobre trabajo en plataformas entró en vigor en diciembre de 2024 y su transposición debe concluir antes de diciembre de 2026.',
+    true
+  ),
+  swipe(
+    'swipe-t4-4',
+    4,
+    'mexico',
+    'La reforma mexicana de 2024 resolvió por completo todos los problemas de cumplimiento, datos y consumo en plataformas.',
+    false
+  ),
+  swipe(
+    'swipe-t4-5',
+    4,
+    'alcance',
+    'Una plataforma de reparto y una de alojamiento producen exactamente los mismos daños y deben regularse igual.',
+    false
+  ),
+  swipe(
+    'swipe-t5-1',
+    5,
+    'consumo',
+    'Los cobros ocultos pueden dañar al consumidor y, al mismo tiempo, dar ventajas injustas a empresas menos transparentes.',
+    true,
+    'facil'
+  ),
+  swipe(
+    'swipe-t5-2',
+    5,
+    'regulacion',
+    'México ya tiene un régimen ex ante equivalente al DMA para guardianes de acceso.',
+    false
+  ),
+  swipe(
+    'swipe-t5-3',
+    5,
+    'conducta',
+    'Autopreferencia significa que la plataforma abre su ecosistema en igualdad de condiciones para todos los rivales.',
+    false
+  ),
+  swipe(
+    'swipe-t5-4',
+    5,
+    'mercado',
+    'La protección al consumidor en mercados digitales solo importa si aumenta el precio nominal del producto.',
+    false
+  ),
+  swipe(
+    'swipe-t5-5',
+    5,
+    'remedio',
+    'Portabilidad e interoperabilidad son inútiles incluso cuando se diseñan de forma técnica y verificable.',
+    false
+  )
 ];
