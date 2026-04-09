@@ -1,21 +1,22 @@
 import html2canvas from 'html2canvas';
 import { useEffect, useRef, useState } from 'react';
-import { totalExercises, type EvaluationMetrics } from '../data';
+import { totalExercises, type EvaluationMetrics, type EvaluationSnapshot } from '../data';
 import { getPerformanceFeedback } from '../features/evaluation/performance';
 import { formatDateLong, sanitizeFileName } from '../utils/format';
 
 interface FinalSectionProps {
+  snapshot: EvaluationSnapshot;
   metrics: EvaluationMetrics;
 }
 
-export function FinalSection({ metrics }: FinalSectionProps) {
+export function FinalSection({ snapshot, metrics }: FinalSectionProps) {
   const evidenceRef = useRef<HTMLDivElement | null>(null);
   const [studentName, setStudentName] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
   const generationDate = formatDateLong();
-  const performanceMessage = getPerformanceFeedback(metrics);
+  const performanceMessage = getPerformanceFeedback(snapshot, metrics);
   const scoringExplanation = `Los ${totalExercises} ejercicios valen el 100 %. Cada ejercicio completado suma 1 punto y cada intento fallido descuenta medio punto. Ejemplo: 10 ejercicios completados y 2 intentos fallidos dejan 9 puntos de 30, equivalente a 30 %.`;
 
   const sanitizedName = sanitizeFileName(studentName) || 'sin-nombre';
@@ -143,9 +144,34 @@ export function FinalSection({ metrics }: FinalSectionProps) {
               <p className="performance-detail">
                 <strong className="performance-label">Fortaleza:</strong> {performanceMessage.strength}
               </p>
-              <p className="performance-detail">
-                <strong className="performance-label">Área de oportunidad:</strong> {performanceMessage.opportunity}
-              </p>
+
+              {performanceMessage.opportunity ? (
+                <p className="performance-detail">
+                  <strong className="performance-label">Ruta de refuerzo:</strong> {performanceMessage.opportunity}
+                </p>
+              ) : null}
+
+              {performanceMessage.hasReinforcement ? (
+                <div className="performance-focus-grid">
+                  <section className="performance-focus-block">
+                    <strong className="performance-label">Temas a reforzar</strong>
+                    <ul className="performance-focus-list">
+                      {performanceMessage.reinforcementThemes.map((theme) => (
+                        <li key={theme}>{theme}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="performance-focus-block">
+                    <strong className="performance-label">Situaciones a revisar</strong>
+                    <ul className="performance-focus-list">
+                      {performanceMessage.reinforcementSituations.map((situation) => (
+                        <li key={situation}>{situation}</li>
+                      ))}
+                    </ul>
+                  </section>
+                </div>
+              ) : null}
             </div>
           </section>
         </article>
@@ -225,9 +251,34 @@ export function FinalSection({ metrics }: FinalSectionProps) {
                 <span>
                   <b>Fortaleza:</b> {performanceMessage.strength}
                 </span>
-                <span>
-                  <b>Área de oportunidad:</b> {performanceMessage.opportunity}
-                </span>
+
+                {performanceMessage.opportunity ? (
+                  <span>
+                    <b>Ruta de refuerzo:</b> {performanceMessage.opportunity}
+                  </span>
+                ) : null}
+
+                {performanceMessage.hasReinforcement ? (
+                  <div className="evidence-focus-grid">
+                    <div>
+                      <b>Temas a reforzar:</b>
+                      <ul className="evidence-focus-list">
+                        {performanceMessage.reinforcementThemes.map((theme) => (
+                          <li key={theme}>{theme}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div>
+                      <b>Situaciones a revisar:</b>
+                      <ul className="evidence-focus-list">
+                        {performanceMessage.reinforcementSituations.map((situation) => (
+                          <li key={situation}>{situation}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ) : null}
               </div>
             </section>
 

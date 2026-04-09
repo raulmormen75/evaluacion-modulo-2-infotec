@@ -184,7 +184,7 @@ export function App() {
             instructions="Escribe tu nombre completo y genera tu reporte de práctica en PNG."
             state="active"
           >
-            <FinalSection metrics={metrics} />
+            <FinalSection snapshot={snapshot} metrics={metrics} />
           </SectionCard>
         ) : null}
       </main>
