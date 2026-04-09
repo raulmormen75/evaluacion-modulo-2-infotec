@@ -30,9 +30,10 @@ interface MatchBoardMetrics {
 }
 
 function buildConnectionPath(startRect: DOMRect, endRect: DOMRect, containerRect: DOMRect) {
-  const startX = startRect.right - containerRect.left;
+  const anchorInset = Math.min(22, startRect.width * 0.08, endRect.width * 0.08);
+  const startX = startRect.right - containerRect.left - anchorInset;
   const startY = startRect.top - containerRect.top + startRect.height / 2;
-  const endX = endRect.left - containerRect.left;
+  const endX = endRect.left - containerRect.left + anchorInset;
   const endY = endRect.top - containerRect.top + endRect.height / 2;
   const controlOffset = Math.max(68, Math.abs(endX - startX) * 0.32);
 

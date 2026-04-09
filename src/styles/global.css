@@ -606,7 +606,7 @@ h4 {
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
   overflow: visible;
 }
 
@@ -629,7 +629,7 @@ h4 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.95rem;
   position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 .match-column {
@@ -637,14 +637,24 @@ h4 {
   gap: 0.72rem;
   padding: 1rem;
   border-radius: var(--radius-lg);
+  position: relative;
+  z-index: 0;
+}
+
+.match-column::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
   border: 1px solid var(--line);
   background: var(--surface-muted);
-  position: relative;
-  z-index: 1;
+  z-index: 0;
 }
 
 .match-column h4 {
   font-size: 1rem;
+  position: relative;
+  z-index: 2;
 }
 
 .match-button,
@@ -665,6 +675,7 @@ h4 {
   gap: 0.7rem;
   align-items: flex-start;
   position: relative;
+  z-index: 2;
 }
 
 .match-button-copy {
