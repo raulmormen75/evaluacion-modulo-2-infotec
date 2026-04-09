@@ -38,6 +38,8 @@
   --progress-text: #876538;
   --progress-bg: var(--warning-soft);
   --progress-border: rgba(198, 165, 122, 0.32);
+  --mcq-feedback-error: #b22a43;
+  --mcq-feedback-success: #216b3d;
   --danger-text: var(--danger);
   --success-text: var(--success);
   --side-false-text: var(--danger);
@@ -86,6 +88,8 @@
   --progress-text: #f2ddb1;
   --progress-bg: rgba(198, 165, 122, 0.18);
   --progress-border: rgba(198, 165, 122, 0.3);
+  --mcq-feedback-error: #ffb8c6;
+  --mcq-feedback-success: #94e5ae;
   --danger-text: #efc7d1;
   --success-text: #f2ddb1;
   --side-false-text: #efc7d1;
@@ -589,6 +593,19 @@ h4 {
 
 .feedback-error {
   color: var(--danger-text);
+}
+
+.mcq-feedback.feedback-success,
+.mcq-feedback.feedback-error {
+  font-weight: 700;
+}
+
+.mcq-feedback.feedback-success {
+  color: var(--mcq-feedback-success);
+}
+
+.mcq-feedback.feedback-error {
+  color: var(--mcq-feedback-error);
 }
 
 .match-board {

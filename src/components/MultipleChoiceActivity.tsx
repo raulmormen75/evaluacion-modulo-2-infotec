@@ -39,7 +39,7 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
   }, []);
 
   if (!item) {
-    return <p className="feedback-message">La actividad ya quedó completada.</p>;
+    return <p className="feedback-message mcq-feedback">{'La actividad ya qued\u00f3 completada.'}</p>;
   }
 
   const currentItem = item;
@@ -64,7 +64,7 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
     onRecordAttempt(currentItem.id, false);
     setFeedback({
       tone: 'error',
-      message: 'No es correcta. Intenta otra opción.'
+      message: 'No es correcta. Intenta otra opci\u00f3n.'
     });
     timerRef.current = window.setTimeout(() => {
       setFeedback(null);
@@ -101,8 +101,8 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
         </ol>
       </article>
 
-      <p className={`feedback-message ${feedback ? `feedback-${feedback.tone}` : ''}`} aria-live="polite">
-        {feedback?.message ?? 'Selecciona una opción. Solo avanzarás cuando sea correcta.'}
+      <p className={`feedback-message mcq-feedback ${feedback ? `feedback-${feedback.tone}` : ''}`} aria-live="polite">
+        {feedback?.message ?? 'Selecciona una opci\u00f3n. Solo avanzar\u00e1s cuando sea correcta.'}
       </p>
     </div>
   );
