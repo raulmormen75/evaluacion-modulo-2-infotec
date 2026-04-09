@@ -12,6 +12,11 @@ interface FeedbackState {
   message: string;
 }
 
+interface SwipeGlowState {
+  side: 'left' | 'right';
+  tone: 'success' | 'error';
+}
+
 const THRESHOLD = 110;
 const MAX_DRAG = 170;
 
@@ -22,6 +27,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
   const theme = getThemeById(themeProgress.themeId);
   const [dragX, setDragX] = useState(0);
   const [feedback, setFeedback] = useState<FeedbackState | null>(null);
+  const [swipeGlow, setSwipeGlow] = useState<SwipeGlowState | null>(null);
   const [isLocked, setIsLocked] = useState(false);
   const startXRef = useRef(0);
   const isDraggingRef = useRef(false);
@@ -30,6 +36,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
   useEffect(() => {
     setDragX(0);
     setFeedback(null);
+    setSwipeGlow(null);
     setIsLocked(false);
   }, [item?.id]);
 
@@ -42,7 +49,7 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
   }, []);
 
   if (!item) {
-    return <p className="feedback-message">La actividad ya quedó completada.</p>;
+    return <p className="feedback-message">{'La actividad ya qued\u00f3 completada.'}</p>;
   }
 
   const currentItem = item;
@@ -52,15 +59,22 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
       return;
     }
 
+    if (timerRef.current) {
+      window.clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+
     const isCorrect = currentItem.correctAnswer === answer;
     const targetX = answer ? MAX_DRAG : -MAX_DRAG;
+    const swipeSide = answer ? 'right' : 'left';
 
     if (isCorrect) {
       setIsLocked(true);
       setDragX(targetX);
+      setSwipeGlow({ side: swipeSide, tone: 'success' });
       setFeedback({
         tone: 'success',
-        message: '¡MUY BIEN!'
+        message: '\u00a1MUY BIEN!'
       });
       timerRef.current = window.setTimeout(() => {
         onRecordAttempt(currentItem.id, true);
@@ -71,13 +85,15 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
     onRecordAttempt(currentItem.id, false);
     setIsLocked(true);
     setDragX(targetX * 0.7);
+    setSwipeGlow({ side: swipeSide, tone: 'error' });
     setFeedback({
       tone: 'error',
-      message: '¡INCORRECTO!'
+      message: '\u00a1INCORRECTO!'
     });
     timerRef.current = window.setTimeout(() => {
       setDragX(0);
       setFeedback(null);
+      setSwipeGlow(null);
       setIsLocked(false);
     }, 1800);
   }
@@ -149,14 +165,14 @@ export function SwipeActivity({ snapshot, onRecordAttempt }: SwipeActivityProps)
 
       <div className="swipe-stage">
         <p className="swipe-helper">Desliza a la izquierda si es falso y a la derecha si es verdadero.</p>
-        <p className="swipe-helper">También puedes usar las flechas del teclado.</p>
+        <p className="swipe-helper">{'Tambi\u00e9n puedes usar las flechas del teclado.'}</p>
 
         <div className="swipe-feedback" aria-live="polite">
           {feedback?.message ?? 'Un enunciado a la vez.'}
         </div>
 
         <div
-          className="swipe-card"
+          className={`swipe-card ${swipeGlow ? `swipe-${swipeGlow.side}-${swipeGlow.tone}` : ''}`}
           tabIndex={0}
           onKeyDown={handleKeyDown}
           onPointerDown={handlePointerDown}

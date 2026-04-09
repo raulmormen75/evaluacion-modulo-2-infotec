@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { getThemeById, multipleChoiceItems, type EvaluationSnapshot } from '../data';
+import { getShuffledMultipleChoiceItem, getThemeById, multipleChoiceItems, type EvaluationSnapshot } from '../data';
 import {
   getCurrentMultipleChoiceIndex,
   getCurrentMultipleChoiceItem,
@@ -42,7 +42,7 @@ export function MultipleChoiceActivity({ snapshot, onRecordAttempt }: MultipleCh
     return <p className="feedback-message mcq-feedback">{'La actividad ya qued\u00f3 completada.'}</p>;
   }
 
-  const currentItem = item;
+  const currentItem = getShuffledMultipleChoiceItem(item, snapshot.seed);
 
   function handleAnswer(optionId: string) {
     if (isLocked) {

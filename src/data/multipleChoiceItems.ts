@@ -1,3 +1,4 @@
+import { seededShuffle } from '../utils/random';
 import type { Difficulty, MultipleChoiceItem, MultipleChoiceOption, ThemeId } from './types';
 
 const optionIds: MultipleChoiceOption['id'][] = ['a', 'b', 'c', 'd', 'e'];
@@ -6,35 +7,14 @@ function option(id: MultipleChoiceOption['id'], text: string): MultipleChoiceOpt
   return { id, text };
 }
 
-function reorderOptions(
-  options: MultipleChoiceOption[],
-  currentCorrectAnswer: MultipleChoiceOption['id'],
-  targetCorrectAnswer: MultipleChoiceOption['id']
-) {
-  const correctOption = options.find((candidate) => candidate.id === currentCorrectAnswer);
-
-  if (!correctOption) {
-    throw new Error(`No se encontró la opción correcta ${currentCorrectAnswer}.`);
-  }
-
-  const distractorTexts = options.filter((candidate) => candidate.id !== currentCorrectAnswer).map((candidate) => candidate.text);
-  const nextOptions = [...distractorTexts];
-  const targetIndex = optionIds.indexOf(targetCorrectAnswer);
-
-  nextOptions.splice(targetIndex, 0, correctOption.text);
-
-  return nextOptions.map((text, index) => option(optionIds[index], text));
-}
-
 function mcq(
   id: string,
   themeId: ThemeId,
   subtype: string,
   question: string,
-  currentCorrectAnswer: MultipleChoiceOption['id'],
+  correctAnswer: MultipleChoiceOption['id'],
   options: MultipleChoiceOption[],
-  difficulty: Difficulty = 'intermedio',
-  targetCorrectAnswer: MultipleChoiceOption['id'] = currentCorrectAnswer
+  difficulty: Difficulty = 'intermedio'
 ): MultipleChoiceItem {
   return {
     id,
@@ -44,8 +24,26 @@ function mcq(
     prompt: question,
     difficulty,
     question,
-    options: reorderOptions(options, currentCorrectAnswer, targetCorrectAnswer),
-    correctAnswer: targetCorrectAnswer
+    options,
+    correctAnswer
+  };
+}
+
+export function getShuffledMultipleChoiceItem(item: MultipleChoiceItem, seed: string): MultipleChoiceItem {
+  const shuffledOptions = seededShuffle(item.options, `${seed}-${item.id}-options`);
+  const correctIndex = shuffledOptions.findIndex((option) => option.id === item.correctAnswer);
+
+  if (correctIndex < 0) {
+    throw new Error(`No se encontró la opción correcta para ${item.id}.`);
+  }
+
+  return {
+    ...item,
+    options: shuffledOptions.map((option, index) => ({
+      id: optionIds[index],
+      text: option.text
+    })),
+    correctAnswer: optionIds[correctIndex]
   };
 }
 
@@ -78,8 +76,7 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Que almacene datos personales, administre cuentas de usuario y cumpla obligaciones generales de privacidad digital.'
       )
     ],
-    'facil',
-    'c'
+    'facil'
   ),
   mcq(
     'mcq-t1-2',
@@ -109,8 +106,7 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Una sustitución regulatoria, porque la empresa adquiere funciones públicas formales al cambiar su diseño.'
       )
     ],
-    'facil',
-    'e'
+    'facil'
   ),
   mcq(
     'mcq-t2-1',
@@ -125,8 +121,7 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
       option('d', 'Servicio OTT, porque intermedia mensajes y vuelve automáticas las obligaciones contractuales de cualquier acuerdo.'),
       option('e', 'Efecto de red, porque más usuarios activan por sí mismos pagos, cobros y obligaciones operativas.')
     ],
-    'facil',
-    'b'
+    'facil'
   ),
   mcq(
     'mcq-t2-2',
@@ -156,8 +151,7 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Publicar identidades completas de usuarios para simplificar contrataciones, trámites remotos y verificaciones comerciales.'
       )
     ],
-    'facil',
-    'd'
+    'facil'
   ),
   mcq(
     'mcq-t3-1',
@@ -277,8 +271,7 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'La neutralidad de red, porque el problema central consiste solo en mover paquetes de datos.'
       )
     ],
-    'facil',
-    'c'
+    'facil'
   ),
   mcq(
     'mcq-t5-1',

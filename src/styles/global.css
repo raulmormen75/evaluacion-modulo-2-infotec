@@ -40,6 +40,10 @@
   --progress-border: rgba(198, 165, 122, 0.32);
   --mcq-feedback-error: #b22a43;
   --mcq-feedback-success: #216b3d;
+  --swipe-glow-success: #2f8a4d;
+  --swipe-glow-success-soft: rgba(47, 138, 77, 0.3);
+  --swipe-glow-error: #b22a43;
+  --swipe-glow-error-soft: rgba(178, 42, 67, 0.28);
   --danger-text: var(--danger);
   --success-text: var(--success);
   --side-false-text: var(--danger);
@@ -90,6 +94,10 @@
   --progress-border: rgba(198, 165, 122, 0.3);
   --mcq-feedback-error: #ffb8c6;
   --mcq-feedback-success: #94e5ae;
+  --swipe-glow-success: #94e5ae;
+  --swipe-glow-success-soft: rgba(148, 229, 174, 0.36);
+  --swipe-glow-error: #ffb8c6;
+  --swipe-glow-error-soft: rgba(255, 184, 198, 0.32);
   --danger-text: #efc7d1;
   --success-text: #f2ddb1;
   --side-false-text: #efc7d1;
@@ -885,6 +893,8 @@ h4 {
 .swipe-card {
   width: min(100%, 700px);
   min-height: 240px;
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 1rem;
@@ -897,8 +907,51 @@ h4 {
   cursor: grab;
   touch-action: none;
   user-select: none;
+  overflow: hidden;
   transform: translateX(var(--drag-x, 0px));
   transition: transform 180ms ease;
+}
+
+.swipe-card::before,
+.swipe-card::after {
+  content: '';
+  position: absolute;
+  top: 0.95rem;
+  bottom: 0.95rem;
+  width: 0.42rem;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.swipe-card::before {
+  left: 0.6rem;
+}
+
+.swipe-card::after {
+  right: 0.6rem;
+}
+
+.swipe-card.swipe-left-success::before,
+.swipe-card.swipe-right-success::after {
+  opacity: 1;
+  background: var(--swipe-glow-success);
+  box-shadow:
+    0 0 0 1px var(--swipe-glow-success),
+    0 0 18px var(--swipe-glow-success-soft);
+}
+
+.swipe-card.swipe-left-error::before,
+.swipe-card.swipe-right-error::after {
+  opacity: 1;
+  background: var(--swipe-glow-error);
+  box-shadow:
+    0 0 0 1px var(--swipe-glow-error),
+    0 0 18px var(--swipe-glow-error-soft);
 }
 
 .swipe-card p {

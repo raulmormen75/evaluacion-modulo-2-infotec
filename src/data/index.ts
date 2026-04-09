@@ -7,7 +7,7 @@ import type { ActivityType, MatchBatch, MatchItem, MultipleChoiceItem, SwipeItem
 export { themes } from './themes';
 export type * from './types';
 export { matchItems } from './matchItems';
-export { multipleChoiceItems } from './multipleChoiceItems';
+export { getShuffledMultipleChoiceItem, multipleChoiceItems } from './multipleChoiceItems';
 export { swipeItems } from './swipeItems';
 
 export const allExercises = [...matchItems, ...multipleChoiceItems, ...swipeItems];

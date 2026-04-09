@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { allExercises, matchBatches, matchItems, multipleChoiceItems, swipeItems, themes } from '../src/data';
+import { allExercises, getShuffledMultipleChoiceItem, matchBatches, matchItems, multipleChoiceItems, swipeItems, themes } from '../src/data';
 
 function countWords(text: string) {
   return text.trim().split(/\s+/).length;
@@ -49,19 +49,21 @@ describe('Banco de reactivos', () => {
     }
   });
 
-  it('distribuye las respuestas correctas entre todos los incisos', () => {
-    const counts = new Map<'a' | 'b' | 'c' | 'd' | 'e', number>([
-      ['a', 0],
-      ['b', 0],
-      ['c', 0],
-      ['d', 0],
-      ['e', 0]
-    ]);
+  it('reordena cada pregunta de opción múltiple sin alterar los textos', () => {
+    const originalItem = multipleChoiceItems[0];
+    const shuffledItem = getShuffledMultipleChoiceItem(originalItem, 'semilla-prueba');
+    const reshuffledItem = getShuffledMultipleChoiceItem(originalItem, 'semilla-prueba');
+    const alternativeShuffle = getShuffledMultipleChoiceItem(originalItem, 'semilla-distinta');
+    const originalCorrectText = originalItem.options.find((option) => option.id === originalItem.correctAnswer)?.text;
+    const shuffledCorrectText = shuffledItem.options.find((option) => option.id === shuffledItem.correctAnswer)?.text;
 
-    for (const item of multipleChoiceItems) {
-      counts.set(item.correctAnswer, (counts.get(item.correctAnswer) ?? 0) + 1);
-    }
-
-    expect([...counts.values()]).toEqual([2, 2, 2, 2, 2]);
+    expect(shuffledItem.options).toHaveLength(5);
+    expect(shuffledItem.options.map((option) => option.id)).toEqual(['a', 'b', 'c', 'd', 'e']);
+    expect(shuffledItem.options.map((option) => option.text).sort()).toEqual(
+      originalItem.options.map((option) => option.text).sort()
+    );
+    expect(shuffledCorrectText).toBe(originalCorrectText);
+    expect(reshuffledItem).toEqual(shuffledItem);
+    expect(alternativeShuffle.options.map((option) => option.text)).not.toEqual(shuffledItem.options.map((option) => option.text));
   });
 });
