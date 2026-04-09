@@ -1,44 +1,11 @@
 import html2canvas from 'html2canvas';
 import { useEffect, useRef, useState } from 'react';
 import { totalExercises, type EvaluationMetrics } from '../data';
+import { getPerformanceFeedback } from '../features/evaluation/performance';
 import { formatDateLong, sanitizeFileName } from '../utils/format';
 
 interface FinalSectionProps {
   metrics: EvaluationMetrics;
-}
-
-interface PerformanceMessage {
-  tone: 'success' | 'progress' | 'support';
-  badge: string;
-  title: string;
-  detail: string;
-}
-
-function getPerformanceMessage(scorePercent: number): PerformanceMessage {
-  if (scorePercent >= 90) {
-    return {
-      tone: 'success',
-      badge: 'Muy buen dominio',
-      title: 'Has dominado muy bien los conocimientos del módulo.',
-      detail: 'Continúa con este nivel de repaso para llegar bien preparado a la actividad práctica.'
-    };
-  }
-
-  if (scorePercent >= 70) {
-    return {
-      tone: 'progress',
-      badge: 'Buen avance',
-      title: 'Vas mejorando y tu repaso avanza bien.',
-      detail: 'Conviene practicar un poco más para reforzar los temas del módulo antes de la actividad práctica.'
-    };
-  }
-
-  return {
-    tone: 'support',
-    badge: 'Sigue practicando',
-    title: 'Vas construyendo tu dominio del módulo.',
-    detail: 'Sigue repasando. Practicar te ayudará a lograr un mejor dominio de los temas.'
-  };
 }
 
 export function FinalSection({ metrics }: FinalSectionProps) {
@@ -48,7 +15,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [generatedUrl, setGeneratedUrl] = useState('');
   const generationDate = formatDateLong();
-  const performanceMessage = getPerformanceMessage(metrics.scorePercent);
+  const performanceMessage = getPerformanceFeedback(metrics);
   const scoringExplanation = `Los ${totalExercises} ejercicios valen el 100 %. Cada ejercicio completado suma 1 punto y cada intento fallido descuenta medio punto. Ejemplo: 10 ejercicios completados y 2 intentos fallidos dejan 9 puntos de 30, equivalente a 30 %.`;
 
   const sanitizedName = sanitizeFileName(studentName) || 'sin-nombre';
@@ -123,7 +90,7 @@ export function FinalSection({ metrics }: FinalSectionProps) {
         <div>
           <p className="mini-label">Repaso concluido</p>
           <h3>Has completado los {totalExercises} ejercicios de práctica.</h3>
-          <p>Consulta tu resultado, identifica tu nivel de avance y genera tu reporte de práctica en imagen.</p>
+          <p>Consulta tu resultado, reconoce tus fortalezas e identifica qué conviene reforzar antes de la actividad práctica.</p>
         </div>
         <div className="progress-stack">
           <div className="progress-chip">Resultado: {metrics.scorePercent}%</div>
@@ -147,7 +114,9 @@ export function FinalSection({ metrics }: FinalSectionProps) {
             </div>
             <div>
               <dt>Ejercicios completados</dt>
-              <dd>{metrics.resolvedCount} / {totalExercises}</dd>
+              <dd>
+                {metrics.resolvedCount} / {totalExercises}
+              </dd>
             </div>
             <div>
               <dt>Correctas al primer intento</dt>
@@ -170,7 +139,14 @@ export function FinalSection({ metrics }: FinalSectionProps) {
           <section className={`performance-card performance-${performanceMessage.tone}`}>
             <span className="performance-badge">{performanceMessage.badge}</span>
             <h5 className="performance-title">{performanceMessage.title}</h5>
-            <p className="performance-detail">{performanceMessage.detail}</p>
+            <div className="performance-insights">
+              <p className="performance-detail">
+                <strong className="performance-label">Fortaleza:</strong> {performanceMessage.strength}
+              </p>
+              <p className="performance-detail">
+                <strong className="performance-label">Área de oportunidad:</strong> {performanceMessage.opportunity}
+              </p>
+            </div>
           </section>
         </article>
 
@@ -245,7 +221,14 @@ export function FinalSection({ metrics }: FinalSectionProps) {
             <section className={`evidence-note evidence-note-${performanceMessage.tone}`}>
               <p>{performanceMessage.badge}</p>
               <strong>{performanceMessage.title}</strong>
-              <span>{performanceMessage.detail}</span>
+              <div className="evidence-note-list">
+                <span>
+                  <b>Fortaleza:</b> {performanceMessage.strength}
+                </span>
+                <span>
+                  <b>Área de oportunidad:</b> {performanceMessage.opportunity}
+                </span>
+              </div>
             </section>
 
             <div className="evidence-metrics">
@@ -255,7 +238,9 @@ export function FinalSection({ metrics }: FinalSectionProps) {
               </article>
               <article>
                 <span>Ejercicios completados</span>
-                <strong>{metrics.resolvedCount} / {totalExercises}</strong>
+                <strong>
+                  {metrics.resolvedCount} / {totalExercises}
+                </strong>
               </article>
               <article>
                 <span>Correctas al primer intento</span>
