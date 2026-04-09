@@ -48,4 +48,20 @@ describe('Banco de reactivos', () => {
       expect(spread).toBeLessThanOrEqual(4);
     }
   });
+
+  it('distribuye las respuestas correctas entre todos los incisos', () => {
+    const counts = new Map<'a' | 'b' | 'c' | 'd' | 'e', number>([
+      ['a', 0],
+      ['b', 0],
+      ['c', 0],
+      ['d', 0],
+      ['e', 0]
+    ]);
+
+    for (const item of multipleChoiceItems) {
+      counts.set(item.correctAnswer, (counts.get(item.correctAnswer) ?? 0) + 1);
+    }
+
+    expect([...counts.values()]).toEqual([2, 2, 2, 2, 2]);
+  });
 });

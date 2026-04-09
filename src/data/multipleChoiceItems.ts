@@ -1,7 +1,29 @@
 import type { Difficulty, MultipleChoiceItem, MultipleChoiceOption, ThemeId } from './types';
 
+const optionIds: MultipleChoiceOption['id'][] = ['a', 'b', 'c', 'd', 'e'];
+
 function option(id: MultipleChoiceOption['id'], text: string): MultipleChoiceOption {
   return { id, text };
+}
+
+function reorderOptions(
+  options: MultipleChoiceOption[],
+  currentCorrectAnswer: MultipleChoiceOption['id'],
+  targetCorrectAnswer: MultipleChoiceOption['id']
+) {
+  const correctOption = options.find((candidate) => candidate.id === currentCorrectAnswer);
+
+  if (!correctOption) {
+    throw new Error(`No se encontró la opción correcta ${currentCorrectAnswer}.`);
+  }
+
+  const distractorTexts = options.filter((candidate) => candidate.id !== currentCorrectAnswer).map((candidate) => candidate.text);
+  const nextOptions = [...distractorTexts];
+  const targetIndex = optionIds.indexOf(targetCorrectAnswer);
+
+  nextOptions.splice(targetIndex, 0, correctOption.text);
+
+  return nextOptions.map((text, index) => option(optionIds[index], text));
 }
 
 function mcq(
@@ -9,9 +31,10 @@ function mcq(
   themeId: ThemeId,
   subtype: string,
   question: string,
-  correctAnswer: MultipleChoiceOption['id'],
+  currentCorrectAnswer: MultipleChoiceOption['id'],
   options: MultipleChoiceOption[],
-  difficulty: Difficulty = 'intermedio'
+  difficulty: Difficulty = 'intermedio',
+  targetCorrectAnswer: MultipleChoiceOption['id'] = currentCorrectAnswer
 ): MultipleChoiceItem {
   return {
     id,
@@ -21,8 +44,8 @@ function mcq(
     prompt: question,
     difficulty,
     question,
-    options,
-    correctAnswer
+    options: reorderOptions(options, currentCorrectAnswer, targetCorrectAnswer),
+    correctAnswer: targetCorrectAnswer
   };
 }
 
@@ -55,7 +78,8 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Que almacene datos personales, administre cuentas de usuario y cumpla obligaciones generales de privacidad digital.'
       )
     ],
-    'facil'
+    'facil',
+    'c'
   ),
   mcq(
     'mcq-t1-2',
@@ -85,7 +109,8 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Una sustitución regulatoria, porque la empresa adquiere funciones públicas formales al cambiar su diseño.'
       )
     ],
-    'facil'
+    'facil',
+    'e'
   ),
   mcq(
     'mcq-t2-1',
@@ -100,7 +125,8 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
       option('d', 'Servicio OTT, porque intermedia mensajes y vuelve automáticas las obligaciones contractuales de cualquier acuerdo.'),
       option('e', 'Efecto de red, porque más usuarios activan por sí mismos pagos, cobros y obligaciones operativas.')
     ],
-    'facil'
+    'facil',
+    'b'
   ),
   mcq(
     'mcq-t2-2',
@@ -130,7 +156,8 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'Publicar identidades completas de usuarios para simplificar contrataciones, trámites remotos y verificaciones comerciales.'
       )
     ],
-    'facil'
+    'facil',
+    'd'
   ),
   mcq(
     'mcq-t3-1',
@@ -250,7 +277,8 @@ export const multipleChoiceItems: MultipleChoiceItem[] = [
         'La neutralidad de red, porque el problema central consiste solo en mover paquetes de datos.'
       )
     ],
-    'facil'
+    'facil',
+    'c'
   ),
   mcq(
     'mcq-t5-1',
